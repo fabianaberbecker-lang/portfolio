@@ -1,0 +1,32 @@
+{
+  "name": "Streaming Finder",
+  "short_name": "StreamFinder",
+  "description": "Find where to watch any movie or TV show across 40+ countries. Stream, rent, or buy — all in one place.",
+  "start_url": "/apps/streaming-finder/search",
+  "scope": "/apps/streaming-finder/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0a0a0a",
+  "background_color": "#0a0a0a",
+  "categories": ["entertainment", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/sf-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/sf-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/sf-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
