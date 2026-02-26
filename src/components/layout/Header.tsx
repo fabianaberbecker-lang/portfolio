@@ -14,9 +14,13 @@ export function Header() {
     const [isEmbedded, setIsEmbedded] = useState(false);
     const isStreamingFinder = pathname.startsWith('/apps/streaming-finder');
 
-    // Detect if running inside an iframe (phone mockup)
+    // Detect if running inside an iframe (phone mockup) or as installed PWA
     useEffect(() => {
-        setIsEmbedded(window.self !== window.top);
+        setIsEmbedded(
+            window.self !== window.top ||
+            window.matchMedia('(display-mode: standalone)').matches ||
+            (window.navigator as any).standalone === true
+        );
     }, []);
 
     if (isEmbedded) return null;
