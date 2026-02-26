@@ -1,0 +1,13 @@
+export { StickerStar } from './StickerStar';
+export { StickerCamera } from './StickerCamera';
+export { StickerSearch } from './StickerSearch';
+export { StickerPlay } from './StickerPlay';
+export { StickerGlobe } from './StickerGlobe';
+export { StickerRocket } from './StickerRocket';
+export { StickerCode } from './StickerCode';
+export { StickerChart } from './StickerChart';
+export { StickerMail } from './StickerMail';
+export { StickerLightning } from './StickerLightning';
+export { StickerHandshake } from './StickerHandshake';
+export { StickerHighlight } from './StickerHighlight';
+export { stickerMap } from './sticker-map';
