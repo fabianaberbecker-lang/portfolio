@@ -9,20 +9,23 @@ import type {
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p';
 
-function apiKey(): string {
-    const key = process.env.TMDB_API_KEY;
-    if (!key) throw new Error('TMDB_API_KEY is not configured');
-    return key;
+function accessToken(): string {
+    const token = process.env.TMDB_ACCESS_TOKEN;
+    if (!token) throw new Error('TMDB_ACCESS_TOKEN is not configured');
+    return token;
 }
 
 async function tmdbFetch<T>(path: string, params: Record<string, string> = {}): Promise<T> {
     const url = new URL(`${TMDB_BASE}${path}`);
-    url.searchParams.set('api_key', apiKey());
     for (const [k, v] of Object.entries(params)) {
         url.searchParams.set(k, v);
     }
 
     const res = await fetch(url.toString(), {
+        headers: {
+            Authorization: `Bearer ${accessToken()}`,
+            'Content-Type': 'application/json',
+        },
         next: { revalidate: 3600 }, // cache 1 hour
     });
 
