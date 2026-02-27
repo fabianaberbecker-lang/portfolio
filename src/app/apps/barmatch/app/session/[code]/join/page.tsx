@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
@@ -13,7 +13,38 @@ export default function JoinSessionPage() {
   const [name, setName] = useState('');
   const [joining, setJoining] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [validating, setValidating] = useState(true);
+  const [sessionValid, setSessionValid] = useState(false);
   const supabaseReady = isSupabaseConfigured();
+
+  // Validate the session exists on mount
+  useEffect(() => {
+    (async () => {
+      if (!supabaseReady) {
+        // Demo mode — check sessionStorage
+        const demoData = sessionStorage.getItem(`bm-demo-${code}`);
+        if (demoData) {
+          setSessionValid(true);
+        } else {
+          setError('Session not found. In demo mode, only the host can access the session.');
+        }
+        setValidating(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/barmatch/session/${code}`);
+        if (res.ok) {
+          setSessionValid(true);
+        } else {
+          setError('Session not found. It may have expired or the code is incorrect.');
+        }
+      } catch {
+        setError('Could not connect to server. Please try again.');
+      }
+      setValidating(false);
+    })();
+  }, [code, supabaseReady]);
 
   const handleJoin = async () => {
     if (!name.trim()) return;
@@ -41,11 +72,44 @@ export default function JoinSessionPage() {
         setJoining(false);
       }
     } else {
-      // Demo mode — just redirect
+      // Demo mode — store member ID and redirect
       sessionStorage.setItem(`bm-member-${code}`, `demo-${Date.now()}`);
       router.push(`/apps/barmatch/app/session/${code}`);
     }
   };
+
+  if (validating) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-amber-400 border-t-transparent" />
+          <p className="text-sm text-white/40">Checking session...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!sessionValid) {
+    return (
+      <div className="flex min-h-screen items-center justify-center px-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/20">
+            <svg className="h-7 w-7 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.072 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-white">Session not found</h2>
+          <p className="mt-2 max-w-xs text-sm text-white/40">{error}</p>
+          <Link
+            href="/apps/barmatch/app"
+            className="mt-4 inline-block text-sm font-medium text-amber-400 hover:underline"
+          >
+            Go back
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
