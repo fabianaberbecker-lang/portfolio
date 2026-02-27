@@ -57,6 +57,21 @@
   --warm-dark: #0e0e0e;
 }
 
+/* ——— BarMatch Dark Theme (Nightlife) ——— */
+.theme-nightlife {
+  --background: #0c0a14;
+  --foreground: #f0ece4;
+  --surface: #1a1626;
+  --surface-hover: #252038;
+  --border-color: #2e2845;
+  --muted: #8a82a0;
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --accent-fg: #0c0a14;
+  --warm: #161222;
+  --warm-dark: #0c0a14;
+}
+
 .dark {
   --background: #0f0d0a;
   --foreground: #ede7dd;

@@ -10,6 +10,7 @@ export interface SiteContent {
     projects: string;
     about: string;
     streamingFinder: string;
+    barMatch: string;
     contact: string;
   };
   hero: {
@@ -125,6 +126,15 @@ export interface SiteContent {
       episodes: string;
       min: string;
     };
+    showcase: {
+      title: string;
+      description: string;
+      valueProps: Array<{ iconKey: string; title: string; description: string }>;
+      cta: string;
+      tryDemo: string;
+    };
+  };
+  barMatch: {
     showcase: {
       title: string;
       description: string;

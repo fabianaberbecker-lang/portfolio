@@ -11,6 +11,7 @@ export const content: SiteContent = {
     projects: 'projects',
     about: 'about',
     streamingFinder: 'streaming finder',
+    barMatch: 'barmatch',
     contact: 'contact',
   },
   hero: {
@@ -281,6 +282,32 @@ export const content: SiteContent = {
         },
       ],
       cta: 'try it out →',
+      tryDemo: 'open app',
+    },
+  },
+  barMatch: {
+    showcase: {
+      title: 'barmatch',
+      description:
+        'A group decision app for finding the right bar. Create a session, invite friends, swipe through nearby spots, and match on the one everyone likes.',
+      valueProps: [
+        {
+          iconKey: 'group',
+          title: 'Group sessions',
+          description: 'Invite friends via link or QR code to decide together.',
+        },
+        {
+          iconKey: 'heart',
+          title: 'Swipe to match',
+          description: 'Like or skip bars — when everyone agrees, it\'s a match.',
+        },
+        {
+          iconKey: 'mappin',
+          title: 'Real bar data',
+          description: 'Live data from OpenStreetMap with locations and hours.',
+        },
+      ],
+      cta: 'try it out \u2192',
       tryDemo: 'open app',
     },
   },

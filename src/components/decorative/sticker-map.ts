@@ -10,6 +10,10 @@ import { StickerChart } from './StickerChart';
 import { StickerMail } from './StickerMail';
 import { StickerLightning } from './StickerLightning';
 import { StickerHandshake } from './StickerHandshake';
+import { StickerCocktail } from './StickerCocktail';
+import { StickerMapPin } from './StickerMapPin';
+import { StickerGroup } from './StickerGroup';
+import { StickerHeart } from './StickerHeart';
 
 interface StickerProps {
   className?: string;
@@ -29,4 +33,8 @@ export const stickerMap: Record<string, ComponentType<StickerProps>> = {
   mail: StickerMail,
   lightning: StickerLightning,
   handshake: StickerHandshake,
+  cocktail: StickerCocktail,
+  mappin: StickerMapPin,
+  group: StickerGroup,
+  heart: StickerHeart,
 };

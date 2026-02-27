@@ -26,6 +26,30 @@ export const projectsDe: Project[] = [
     ],
   },
   {
+    slug: 'barmatch',
+    title: 'BarMatch',
+    summary:
+      'Eine Gruppen-Entscheidungs-App, die Freunden hilft, gemeinsam eine Bar zu finden. Session erstellen, durch Bars swipen und matchen, wenn alle einig sind.',
+    status: 'shipped',
+    role: 'Product Manager & Entwickler',
+    scope: 'End-to-End: Konzept, UX-Design, Datenintegration, Echtzeit-Kollaboration und Launch.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'OpenStreetMap', 'Supabase', 'Framer Motion'],
+    problem:
+      'Freundesgruppen verschwenden Zeit mit der Diskussion, wohin sie ausgehen sollen. Hin- und Herschreiben, Google Maps durchsuchen und einen Konsens finden ist langsam und frustrierend.',
+    approach:
+      'Aufbau einer Tinder-artigen Swipe-Oberfläche für Bars in der Nähe. Der Host erstellt eine Session, teilt einen Link, und alle swipen unabhängig. Eine BarDataProvider-Abstraktionsschicht unterstützt mehrere Datenquellen (OpenStreetMap Overpass, Google Places). Supabase übernimmt Echtzeit-Vote-Synchronisation und Match-Erkennung.',
+    outcome:
+      'Voll funktionsfähige Gruppen-Swipe-App mit Live-Sessions, echten Bar-Daten von OpenStreetMap, Match-Erkennung und Navigation per "In Maps öffnen". Provider-Abstraktion ermöglicht einfachen Datenquellenwechsel.',
+    links: {
+      demo: '/apps/barmatch',
+    },
+    highlights: [
+      'Tinder-artige Swipe-UI mit Gesten-Support',
+      'Echtzeit-Gruppen-Sessions via Supabase',
+      'Provider-Abstraktion (OSM / Google Places)',
+    ],
+  },
+  {
     slug: 'analytics-dashboard',
     title: 'Product Analytics Dashboard',
     summary:

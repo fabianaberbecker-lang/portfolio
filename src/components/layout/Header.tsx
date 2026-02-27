@@ -13,6 +13,8 @@ export function Header() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isEmbedded, setIsEmbedded] = useState(false);
     const isStreamingFinder = pathname.startsWith('/apps/streaming-finder');
+    const isBarMatch = pathname.startsWith('/apps/barmatch');
+    const isDarkApp = isStreamingFinder || isBarMatch;
 
     // Detect if running inside an iframe (phone mockup) or as installed PWA
     useEffect(() => {
@@ -30,12 +32,13 @@ export function Header() {
         { href: '/projects', label: t.nav.projects },
         { href: '/about', label: t.nav.about },
         { href: '/apps/streaming-finder', label: t.nav.streamingFinder },
+        { href: '/apps/barmatch', label: t.nav.barMatch },
         { href: '/contact', label: t.nav.contact },
     ];
 
     return (
         <header
-            className={`sticky top-0 z-50 backdrop-blur-xl ${isStreamingFinder
+            className={`sticky top-0 z-50 backdrop-blur-xl ${isDarkApp
                     ? 'bg-[#0a0a0a]/90 border-b border-white/5'
                     : 'bg-warm/80 border-b border-border'
                 }`}
@@ -44,11 +47,11 @@ export function Header() {
                 {/* Logo */}
                 <Link
                     href="/"
-                    className={`text-xl font-black lowercase tracking-tight ${isStreamingFinder ? 'text-white' : 'text-foreground'
+                    className={`text-xl font-black lowercase tracking-tight ${isDarkApp ? 'text-white' : 'text-foreground'
                         }`}
                 >
                     fabian becker
-                    <span className={isStreamingFinder ? 'text-[#e63946]' : 'text-pop-purple'}>
+                    <span className={isDarkApp ? (isBarMatch ? 'text-amber-500' : 'text-[#e63946]') : 'text-pop-purple'}>
                         _
                     </span>
                 </Link>
@@ -64,10 +67,10 @@ export function Header() {
                                 key={link.href}
                                 href={link.href}
                                 className={`rounded-full px-4 py-2 text-sm font-medium lowercase tracking-wide transition-all ${isActive
-                                        ? isStreamingFinder
+                                        ? isDarkApp
                                             ? 'bg-white/10 text-white'
                                             : 'bg-foreground text-background'
-                                        : isStreamingFinder
+                                        : isDarkApp
                                             ? 'text-white/60 hover:text-white hover:bg-white/5'
                                             : 'text-muted hover:text-foreground hover:bg-foreground/5'
                                     }`}
@@ -88,7 +91,7 @@ export function Header() {
                     <ThemeToggle />
                     <button
                         onClick={() => setMenuOpen(!menuOpen)}
-                        className={`rounded-full p-2 ${isStreamingFinder
+                        className={`rounded-full p-2 ${isDarkApp
                                 ? 'text-white/60 hover:bg-white/10'
                                 : 'text-muted hover:bg-foreground/5'
                             }`}
@@ -110,7 +113,7 @@ export function Header() {
             {/* Mobile Nav */}
             {menuOpen && (
                 <nav
-                    className={`border-t px-6 py-4 lg:hidden ${isStreamingFinder
+                    className={`border-t px-6 py-4 lg:hidden ${isDarkApp
                             ? 'border-white/5 bg-[#0a0a0a]'
                             : 'border-border bg-warm'
                         }`}
@@ -125,10 +128,10 @@ export function Header() {
                                 href={link.href}
                                 onClick={() => setMenuOpen(false)}
                                 className={`block rounded-2xl px-4 py-3 text-base font-medium lowercase ${isActive
-                                        ? isStreamingFinder
+                                        ? isDarkApp
                                             ? 'bg-white/10 text-white'
                                             : 'bg-foreground text-background'
-                                        : isStreamingFinder
+                                        : isDarkApp
                                             ? 'text-white/60 hover:text-white'
                                             : 'text-muted hover:text-foreground'
                                     }`}

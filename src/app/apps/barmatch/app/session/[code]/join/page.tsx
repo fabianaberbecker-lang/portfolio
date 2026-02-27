@@ -1,0 +1,106 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { isSupabaseConfigured } from '@/lib/barmatch/supabase';
+
+export default function JoinSessionPage() {
+  const router = useRouter();
+  const params = useParams();
+  const code = (params.code as string).toUpperCase();
+  const [name, setName] = useState('');
+  const [joining, setJoining] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabaseReady = isSupabaseConfigured();
+
+  const handleJoin = async () => {
+    if (!name.trim()) return;
+    setJoining(true);
+    setError(null);
+
+    if (supabaseReady) {
+      try {
+        const res = await fetch(`/api/barmatch/session/${code}/join`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name.trim() }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || 'Failed to join');
+        }
+
+        const data = await res.json();
+        sessionStorage.setItem(`bm-member-${code}`, data.memberId);
+        router.push(`/apps/barmatch/app/session/${code}`);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Something went wrong');
+        setJoining(false);
+      }
+    } else {
+      // Demo mode — just redirect
+      sessionStorage.setItem(`bm-member-${code}`, `demo-${Date.now()}`);
+      router.push(`/apps/barmatch/app/session/${code}`);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center px-6">
+      <div className="w-full max-w-sm">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500/20">
+            <svg className="h-7 w-7 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-black text-white">Join Session</h1>
+          <p className="mt-1 text-sm text-white/40">
+            Session code: <span className="font-mono font-bold text-amber-300">{code}</span>
+          </p>
+        </div>
+
+        {/* Name input */}
+        <div className="space-y-4">
+          <div>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/40">
+              Your name
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              maxLength={20}
+              className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3 text-white placeholder:text-white/20 focus:border-amber-500/50 focus:outline-none"
+              autoFocus
+              onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
+            />
+          </div>
+
+          {error && <p className="text-sm text-red-400">{error}</p>}
+
+          <Button
+            variant="nightlife"
+            size="lg"
+            className="w-full"
+            onClick={handleJoin}
+            disabled={!name.trim() || joining}
+          >
+            {joining ? 'Joining...' : 'Join'}
+          </Button>
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link href="/apps/barmatch/app" className="text-xs text-white/20 hover:text-white/40">
+            Start your own session instead
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

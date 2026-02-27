@@ -1,0 +1,32 @@
+{
+  "name": "BarMatch",
+  "short_name": "BarMatch",
+  "description": "Find the perfect bar with your group. Swipe, match, go out!",
+  "start_url": "/apps/barmatch/app",
+  "scope": "/apps/barmatch/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0c0a14",
+  "background_color": "#0c0a14",
+  "categories": ["lifestyle", "social"],
+  "icons": [
+    {
+      "src": "/icons/bm-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/bm-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/bm-maskable-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

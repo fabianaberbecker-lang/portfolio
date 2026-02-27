@@ -11,6 +11,7 @@ export const content: SiteContent = {
     projects: 'projekte',
     about: 'über mich',
     streamingFinder: 'streaming finder',
+    barMatch: 'barmatch',
     contact: 'kontakt',
   },
   hero: {
@@ -282,6 +283,32 @@ export const content: SiteContent = {
       ],
       cta: 'ausprobieren →',
       tryDemo: 'app öffnen',
+    },
+  },
+  barMatch: {
+    showcase: {
+      title: 'barmatch',
+      description:
+        'Eine Gruppen-Entscheidungs-App, um die richtige Bar zu finden. Session erstellen, Freunde einladen, durch Bars swipen und gemeinsam matchen.',
+      valueProps: [
+        {
+          iconKey: 'group',
+          title: 'Gruppen-Sessions',
+          description: 'Freunde per Link oder QR-Code einladen und gemeinsam entscheiden.',
+        },
+        {
+          iconKey: 'heart',
+          title: 'Swipen & Matchen',
+          description: 'Bars liken oder skippen \u2014 wenn alle einig sind, gibt\u2019s ein Match.',
+        },
+        {
+          iconKey: 'mappin',
+          title: 'Echte Bar-Daten',
+          description: 'Live-Daten von OpenStreetMap mit Standorten und \u00d6ffnungszeiten.',
+        },
+      ],
+      cta: 'ausprobieren \u2192',
+      tryDemo: 'app \u00f6ffnen',
     },
   },
   cta: {
