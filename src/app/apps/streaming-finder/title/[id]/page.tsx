@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -8,8 +8,12 @@ import { Badge } from '@/components/ui/Badge';
 import { Tabs } from '@/components/ui/Tabs';
 import { DetailSkeleton } from '@/components/ui/Skeleton';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
+import { useSubscriptions } from '@/lib/streaming-finder/SubscriptionContext';
+import { ProviderGrid } from '@/components/streaming-finder/ProviderGrid';
+import { BestOption } from '@/components/streaming-finder/BestOption';
+import { AlertButton } from '@/components/streaming-finder/AlertButton';
 import { StickerPlay } from '@/components/decorative/StickerPlay';
-import type { TitleDetails, Availability, WatchProvider } from '@/lib/streaming/types';
+import type { TitleDetails, Availability } from '@/lib/streaming/types';
 import { use } from 'react';
 
 interface PageProps {
@@ -42,40 +46,37 @@ function ErrorIcon() {
     );
 }
 
-function ProviderGrid({ providers, tmdbLink, noProvidersText }: { providers: WatchProvider[]; tmdbLink?: string; noProvidersText: string }) {
-    if (providers.length === 0) {
-        return (
-            <div className="rounded-2xl border border-white/5 bg-white/[0.03] p-8 text-center">
-                <p className="text-sm text-white/40">{noProvidersText}</p>
-            </div>
-        );
-    }
+/** Section showing providers the user subscribes to */
+function SubscribedSection({
+    providers,
+    subscribedIds,
+    tmdbLink,
+    label,
+}: {
+    providers: import('@/lib/streaming/types').WatchProvider[];
+    subscribedIds: number[];
+    tmdbLink?: string;
+    label: string;
+}) {
+    const subscribed = providers.filter((p) => subscribedIds.includes(p.providerId));
+    if (subscribed.length === 0) return null;
 
     return (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {providers
-                .sort((a, b) => a.displayPriority - b.displayPriority)
-                .map((provider) => (
-                    <a
-                        key={provider.providerId}
-                        href={tmdbLink || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] p-4 transition-all hover:bg-white/[0.08] hover:border-white/10 hover:scale-[1.02]"
-                    >
-                        <Image
-                            src={provider.logoPath}
-                            alt={provider.providerName}
-                            width={44}
-                            height={44}
-                            className="rounded-lg"
-                            unoptimized
-                        />
-                        <span className="text-sm font-medium text-white/80 line-clamp-2">
-                            {provider.providerName}
-                        </span>
-                    </a>
-                ))}
+        <div className="mb-6">
+            <div className="mb-3 flex items-center gap-2">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e63946]">
+                    <svg className="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                </span>
+                <h3 className="text-sm font-bold text-white/90 lowercase tracking-tight">{label}</h3>
+            </div>
+            <ProviderGrid
+                providers={subscribed}
+                tmdbLink={tmdbLink}
+                noProvidersText=""
+                subscribedIds={subscribedIds}
+            />
         </div>
     );
 }
@@ -86,6 +87,7 @@ export default function TitleDetailPage({ params }: PageProps) {
     const { t } = useLanguage();
     const dt = t.streamingFinder.detail;
     const type = (searchParams.get('type') as 'movie' | 'tv') || 'movie';
+    const { providerIds } = useSubscriptions();
 
     const [details, setDetails] = useState<TitleDetails | null>(null);
     const [availability, setAvailability] = useState<Availability | null>(null);
@@ -113,6 +115,18 @@ export default function TitleDetailPage({ params }: PageProps) {
         }
         fetchData();
     }, [id, type, region]);
+
+    // Check if title is available on any subscribed flatrate service
+    const hasSubscribedFlatrate = useMemo(() => {
+        if (!availability || providerIds.length === 0) return false;
+        return availability.flatrate.some((p) => providerIds.includes(p.providerId));
+    }, [availability, providerIds]);
+
+    // Non-subscribed flatrate providers
+    const otherFlatrate = useMemo(() => {
+        if (!availability) return [];
+        return availability.flatrate.filter((p) => !providerIds.includes(p.providerId));
+    }, [availability, providerIds]);
 
     if (loading) {
         return (
@@ -150,24 +164,68 @@ export default function TitleDetailPage({ params }: PageProps) {
         );
     }
 
+    const flatrateContent = (
+        <div>
+            {/* Show subscribed providers pinned at top */}
+            {providerIds.length > 0 && (
+                <SubscribedSection
+                    providers={availability?.flatrate ?? []}
+                    subscribedIds={providerIds}
+                    tmdbLink={availability?.link}
+                    label={dt.availableOnYours}
+                />
+            )}
+
+            {/* Show remaining providers */}
+            {providerIds.length > 0 && otherFlatrate.length > 0 && (
+                <div>
+                    <h3 className="mb-3 text-xs font-semibold text-white/30 uppercase tracking-wider">
+                        {dt.alsoAvailableOn}
+                    </h3>
+                    <ProviderGrid
+                        providers={otherFlatrate}
+                        tmdbLink={availability?.link}
+                        noProvidersText={dt.noProviders}
+                    />
+                </div>
+            )}
+
+            {/* No subscriptions set: show all normally */}
+            {providerIds.length === 0 && (
+                <div>
+                    <ProviderGrid
+                        providers={availability?.flatrate ?? []}
+                        tmdbLink={availability?.link}
+                        noProvidersText={dt.noProviders}
+                    />
+                    <p className="mt-4 text-center text-xs text-white/30">
+                        <Link href="/apps/streaming-finder/services" className="text-[#e63946] hover:underline">
+                            {dt.setupServices}
+                        </Link>
+                    </p>
+                </div>
+            )}
+        </div>
+    );
+
     const tabs = [
         {
             id: 'flatrate',
             label: dt.streaming,
             count: availability?.flatrate.length ?? 0,
-            content: <ProviderGrid providers={availability?.flatrate ?? []} tmdbLink={availability?.link} noProvidersText={dt.noProviders} />,
+            content: flatrateContent,
         },
         {
             id: 'rent',
             label: dt.rent,
             count: availability?.rent.length ?? 0,
-            content: <ProviderGrid providers={availability?.rent ?? []} tmdbLink={availability?.link} noProvidersText={dt.noProviders} />,
+            content: <ProviderGrid providers={availability?.rent ?? []} tmdbLink={availability?.link} noProvidersText={dt.noProviders} subscribedIds={providerIds} />,
         },
         {
             id: 'buy',
             label: dt.buy,
             count: availability?.buy.length ?? 0,
-            content: <ProviderGrid providers={availability?.buy ?? []} tmdbLink={availability?.link} noProvidersText={dt.noProviders} />,
+            content: <ProviderGrid providers={availability?.buy ?? []} tmdbLink={availability?.link} noProvidersText={dt.noProviders} subscribedIds={providerIds} />,
         },
     ];
 
@@ -240,8 +298,28 @@ export default function TitleDetailPage({ params }: PageProps) {
                                     ))}
                                 </div>
                             )}
+
+                            {/* Alert button */}
+                            <div className="mt-5">
+                                <AlertButton
+                                    titleId={Number(id)}
+                                    titleType={type}
+                                    titleName={details.title}
+                                    posterPath={details.posterPath}
+                                    region={region}
+                                />
+                            </div>
                         </div>
                     </div>
+
+                    {/* Best Option module — shows when not on subscribed services */}
+                    {providerIds.length > 0 && !hasSubscribedFlatrate && availability && (
+                        <BestOption
+                            availability={availability}
+                            subscribedIds={providerIds}
+                            tmdbLink={availability.link}
+                        />
+                    )}
 
                     <div className="mt-12 mb-6 flex items-center justify-between">
                         <h2 className="text-xl font-black lowercase tracking-tight">

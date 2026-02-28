@@ -145,6 +145,27 @@ export class TMDBProvider implements AvailabilityProvider {
         };
     }
 
+    async getProviderList(region: string): Promise<WatchProvider[]> {
+        const [movieData, tvData] = await Promise.all([
+            tmdbFetch<{ results: any[] }>('/watch/providers/movie', {
+                watch_region: region.toUpperCase(),
+                language: 'en-US',
+            }),
+            tmdbFetch<{ results: any[] }>('/watch/providers/tv', {
+                watch_region: region.toUpperCase(),
+                language: 'en-US',
+            }),
+        ]);
+
+        const seen = new Map<number, WatchProvider>();
+        for (const p of [...(movieData.results ?? []), ...(tvData.results ?? [])]) {
+            if (!seen.has(p.provider_id)) {
+                seen.set(p.provider_id, mapProvider(p));
+            }
+        }
+        return Array.from(seen.values()).sort((a, b) => a.displayPriority - b.displayPriority);
+    }
+
     async getAvailability(
         id: number,
         type: 'movie' | 'tv',

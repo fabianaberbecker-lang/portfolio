@@ -125,6 +125,42 @@ export interface SiteContent {
       couldNotLoad: string;
       episodes: string;
       min: string;
+      availableOnYours: string;
+      alsoAvailableOn: string;
+      notOnYourServices: string;
+      setupServices: string;
+      notifyMe: string;
+      alertActive: string;
+      nowAvailable: string;
+      removeAlert: string;
+      needServices: string;
+      pushDenied: string;
+      alertCreated: string;
+      alertRemoved: string;
+      bestOptionTitle: string;
+      bestRental: string;
+      bestPurchase: string;
+      comparePrices: string;
+      orSetAlert: string;
+      priceUnknown: string;
+    };
+    services: {
+      title: string;
+      subtitle: string;
+      selectRegion: string;
+      searchPlaceholder: string;
+      noProviders: string;
+      selected: string;
+      done: string;
+      clearAll: string;
+    };
+    alerts: {
+      title: string;
+      subtitle: string;
+      noAlerts: string;
+      active: string;
+      matched: string;
+      deleteConfirm: string;
     };
     showcase: {
       title: string;

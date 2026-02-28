@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { CardSkeleton } from '@/components/ui/Skeleton';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
+import { useSubscriptions } from '@/lib/streaming-finder/SubscriptionContext';
+import { NotificationBadge } from '@/components/streaming-finder/NotificationBadge';
 import { StickerSearch } from '@/components/decorative/StickerSearch';
 import { StickerPlay } from '@/components/decorative/StickerPlay';
 import type { SearchResult } from '@/lib/streaming/types';
@@ -95,9 +97,19 @@ function TrendingRowSkeleton() {
     );
 }
 
+function SettingsIcon() {
+    return (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+    );
+}
+
 export default function SearchPage() {
     const { t } = useLanguage();
     const st = t.streamingFinder.search;
+    const { providerIds } = useSubscriptions();
 
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchResult[]>([]);
@@ -150,12 +162,29 @@ export default function SearchPage() {
                 <div className="mx-auto max-w-6xl px-6 lg:px-10">
                     {/* Header */}
                     <div className="mb-8">
-                        <Link
-                            href="/apps/streaming-finder"
-                            className="mb-4 inline-flex items-center gap-1 text-sm text-white/40 hover:text-white/70"
-                        >
-                            {st.backLink}
-                        </Link>
+                        <div className="mb-4 flex items-center justify-between">
+                            <Link
+                                href="/apps/streaming-finder"
+                                className="inline-flex items-center gap-1 text-sm text-white/40 hover:text-white/70"
+                            >
+                                {st.backLink}
+                            </Link>
+                            <div className="flex items-center gap-2">
+                                <NotificationBadge />
+                                <Link
+                                    href="/apps/streaming-finder/services"
+                                    className="relative flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/50 transition-all hover:bg-white/10 hover:text-white/80"
+                                    title={t.streamingFinder.services.title}
+                                >
+                                    <SettingsIcon />
+                                    {providerIds.length > 0 && (
+                                        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#e63946] px-1 text-[10px] font-bold text-white">
+                                            {providerIds.length}
+                                        </span>
+                                    )}
+                                </Link>
+                            </div>
+                        </div>
                         <h1 className="text-3xl font-black lowercase tracking-tight sm:text-4xl">
                             {st.title}
                         </h1>

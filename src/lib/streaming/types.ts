@@ -68,4 +68,8 @@ export interface AvailabilityProvider {
     getTrending(
         timeWindow?: 'day' | 'week'
     ): Promise<{ movies: SearchResult[]; tv: SearchResult[] }>;
+
+    getProviderList(
+        region: string
+    ): Promise<WatchProvider[]>;
 }

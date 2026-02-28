@@ -1,4 +1,4 @@
-const CACHE_NAME = 'streaming-finder-v1';
+const CACHE_NAME = 'streaming-finder-v2';
 
 const PRECACHE_URLS = [
   '/apps/streaming-finder/search',
@@ -59,5 +59,39 @@ self.addEventListener('fetch', (event) => {
       })
     );
     return;
+  }
+});
+
+// Push notifications
+self.addEventListener('push', (event) => {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'Streaming Finder';
+  const options = {
+    body: data.body || 'A title is now available on your services!',
+    icon: data.icon || '/icons/sf-192.png',
+    badge: '/icons/sf-192.png',
+    data: { url: data.url || '/apps/streaming-finder/search' },
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Notification click: open the relevant page
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url;
+  if (url) {
+    event.waitUntil(
+      self.clients.matchAll({ type: 'window' }).then((clients) => {
+        // Focus existing tab if open
+        for (const client of clients) {
+          if (client.url.includes('/apps/streaming-finder') && 'focus' in client) {
+            client.navigate(url);
+            return client.focus();
+          }
+        }
+        // Otherwise open new tab
+        return self.clients.openWindow(url);
+      })
+    );
   }
 });

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { ServiceWorkerRegistration } from './sw-register';
+import { SubscriptionProvider } from '@/lib/streaming-finder/SubscriptionContext';
 
 export const metadata: Metadata = {
   title: 'Streaming Finder',
@@ -23,9 +24,9 @@ export default function StreamingFinderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <SubscriptionProvider>
       <ServiceWorkerRegistration />
       {children}
-    </>
+    </SubscriptionProvider>
   );
 }
