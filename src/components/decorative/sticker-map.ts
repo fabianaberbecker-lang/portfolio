@@ -14,6 +14,10 @@ import { StickerCocktail } from './StickerCocktail';
 import { StickerMapPin } from './StickerMapPin';
 import { StickerGroup } from './StickerGroup';
 import { StickerHeart } from './StickerHeart';
+import { StickerBoard } from './StickerBoard';
+import { StickerColumns } from './StickerColumns';
+import { StickerLink } from './StickerLink';
+import { StickerOffline } from './StickerOffline';
 
 interface StickerProps {
   className?: string;
@@ -37,4 +41,8 @@ export const stickerMap: Record<string, ComponentType<StickerProps>> = {
   mappin: StickerMapPin,
   group: StickerGroup,
   heart: StickerHeart,
+  board: StickerBoard,
+  columns: StickerColumns,
+  link: StickerLink,
+  offline: StickerOffline,
 };

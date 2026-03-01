@@ -50,6 +50,30 @@ export const projectsDe: Project[] = [
     ],
   },
   {
+    slug: 'flowboard',
+    title: 'FlowBoard',
+    summary:
+      'Ein hybrides Planungstool, das Kanban-Spalten mit einem freien Canvas kombiniert. Karten zwischen Modi ziehen, Ideen visuell verbinden und komplett offline arbeiten.',
+    status: 'shipped',
+    role: 'Product Manager & Entwickler',
+    scope: 'End-to-End: Konzept, Design-System, State Management, Offline-First-Architektur und PWA-Launch.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Zustand', 'IndexedDB', 'dnd-kit'],
+    problem:
+      'Bestehende Projekttools zwingen Nutzer zur Wahl zwischen strukturierten Boards (Trello) oder freien Canvases (Miro). Der Wechsel zwischen ihnen unterbricht den Flow und verstreut Informationen.',
+    approach:
+      'Aufbau eines Dual-Mode-Planungstools, bei dem jede Karte sowohl in Kanban- als auch Canvas-Ansicht existiert. Zustand mit Temporal-Middleware ermöglicht Undo/Redo. IndexedDB sichert Offline-Persistenz. Eigene SVG-Verbinder ermöglichen visuelle Abhängigkeits-Darstellung. Ausgeliefert als PWA für mobile Nutzung.',
+    outcome:
+      'Nahtloser Moduswechsel behält alle Kartendaten bei. Canvas unterstützt Pan, Zoom und Bezier-Verbinder. Volle Offline-Fähigkeit mit IndexedDB. Befehlspalette und Tastenkombinationen für Power-User.',
+    links: {
+      demo: '/apps/flowboard',
+    },
+    highlights: [
+      'Duale Kanban- + Canvas-Modi mit geteilten Daten',
+      'Eigene SVG-Connector-Engine mit Bezier-Pfaden',
+      'Offline-First mit IndexedDB + PWA',
+    ],
+  },
+  {
     slug: 'analytics-dashboard',
     title: 'Product Analytics Dashboard',
     summary:

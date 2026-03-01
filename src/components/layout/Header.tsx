@@ -14,7 +14,8 @@ export function Header() {
     const [isEmbedded, setIsEmbedded] = useState(false);
     const isStreamingFinder = pathname.startsWith('/apps/streaming-finder');
     const isBarMatch = pathname.startsWith('/apps/barmatch');
-    const isDarkApp = isStreamingFinder || isBarMatch;
+    const isFlowBoard = pathname.startsWith('/apps/flowboard');
+    const isDarkApp = isStreamingFinder || isBarMatch || isFlowBoard;
 
     // Detect if running inside an iframe (phone mockup) or as installed PWA
     useEffect(() => {
@@ -33,6 +34,7 @@ export function Header() {
         { href: '/about', label: t.nav.about },
         { href: '/apps/streaming-finder', label: t.nav.streamingFinder },
         { href: '/apps/barmatch', label: t.nav.barMatch },
+        { href: '/apps/flowboard', label: t.nav.flowBoard },
         { href: '/contact', label: t.nav.contact },
     ];
 
@@ -51,7 +53,7 @@ export function Header() {
                         }`}
                 >
                     fabian becker
-                    <span className={isDarkApp ? (isBarMatch ? 'text-amber-500' : 'text-[#e63946]') : 'text-pop-purple'}>
+                    <span className={isDarkApp ? (isFlowBoard ? 'text-indigo-400' : isBarMatch ? 'text-amber-500' : 'text-[#e63946]') : 'text-pop-purple'}>
                         _
                     </span>
                 </Link>

@@ -1,0 +1,32 @@
+{
+  "name": "FlowBoard",
+  "short_name": "FlowBoard",
+  "description": "Kanban + Canvas organizational tool with drag-and-drop and glass UI",
+  "start_url": "/apps/flowboard/app",
+  "scope": "/apps/flowboard/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#0b0d1a",
+  "background_color": "#0b0d1a",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/fb-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/fb-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/fb-maskable-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

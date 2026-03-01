@@ -5,13 +5,15 @@ interface CardProps {
     children: ReactNode;
     href?: string;
     className?: string;
-    variant?: 'default' | 'cinema';
+    variant?: 'default' | 'cinema' | 'flowboard';
 }
 
 export function Card({ children, href, className = '', variant = 'default' }: CardProps) {
     const baseClass =
         variant === 'cinema'
             ? `group overflow-hidden rounded-2xl bg-surface transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-accent/10 ${className}`
+            : variant === 'flowboard'
+            ? `group overflow-hidden rounded-2xl glass-card transition-all duration-300 hover:scale-[1.02] ${className}`
             : `group overflow-hidden rounded-[2rem] border border-border bg-surface p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-foreground/5 hover:-translate-y-1 ${className}`;
 
     if (href) {

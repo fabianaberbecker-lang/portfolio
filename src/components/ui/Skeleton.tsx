@@ -1,12 +1,12 @@
 interface SkeletonProps {
     className?: string;
-    variant?: 'default' | 'cinema';
+    variant?: 'default' | 'cinema' | 'flowboard';
 }
 
 export function Skeleton({ className = '', variant = 'default' }: SkeletonProps) {
     return (
         <div
-            className={`animate-pulse rounded-2xl ${variant === 'cinema' ? 'bg-white/5' : 'bg-foreground/5'
+            className={`animate-pulse rounded-2xl ${variant === 'cinema' || variant === 'flowboard' ? 'bg-white/5' : 'bg-foreground/5'
                 } ${className}`}
             aria-hidden
         />

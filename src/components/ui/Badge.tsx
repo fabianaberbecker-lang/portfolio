@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 interface BadgeProps {
     children: ReactNode;
-    variant?: 'default' | 'accent' | 'success' | 'warning' | 'cinema' | 'nightlife';
+    variant?: 'default' | 'accent' | 'success' | 'warning' | 'cinema' | 'nightlife' | 'flowboard';
     className?: string;
 }
 
@@ -13,6 +13,7 @@ const variants = {
     warning: 'bg-pop-yellow/20 text-foreground border-pop-yellow/30',
     cinema: 'bg-white/10 text-white/80 border-white/10',
     nightlife: 'bg-amber-500/15 text-amber-300 border-amber-500/25',
+    flowboard: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/25',
 };
 
 export function Badge({ children, variant = 'default', className = '' }: BadgeProps) {

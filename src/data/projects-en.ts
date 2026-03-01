@@ -50,6 +50,30 @@ export const projectsEn: Project[] = [
     ],
   },
   {
+    slug: 'flowboard',
+    title: 'FlowBoard',
+    summary:
+      'A hybrid planning tool that combines Kanban columns with a freeform canvas. Drag cards between modes, connect ideas visually, and work fully offline.',
+    status: 'shipped',
+    role: 'Product Manager & Developer',
+    scope: 'End-to-end: concept, design system, state management, offline-first architecture, and PWA launch.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Zustand', 'IndexedDB', 'dnd-kit'],
+    problem:
+      'Existing project tools force users to choose between structured boards (Trello) or freeform canvases (Miro). Switching between them breaks flow and scatters information across tools.',
+    approach:
+      'Built a dual-mode planning tool where every card exists in both Kanban and Canvas views simultaneously. Zustand with temporal middleware provides undo/redo. IndexedDB ensures offline persistence. Custom SVG connectors let users map dependencies visually. Shipped as a PWA for mobile use.',
+    outcome:
+      'Seamless mode switching preserves all card data. Canvas supports pan, zoom, and bezier connectors. Full offline capability with IndexedDB. Command palette and keyboard shortcuts for power users.',
+    links: {
+      demo: '/apps/flowboard',
+    },
+    highlights: [
+      'Dual Kanban + Canvas modes with shared data',
+      'Custom SVG connector engine with bezier paths',
+      'Offline-first with IndexedDB + PWA',
+    ],
+  },
+  {
     slug: 'analytics-dashboard',
     title: 'Product Analytics Dashboard',
     summary:

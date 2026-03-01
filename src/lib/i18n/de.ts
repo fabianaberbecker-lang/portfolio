@@ -12,6 +12,7 @@ export const content: SiteContent = {
     about: 'über mich',
     streamingFinder: 'streaming finder',
     barMatch: 'barmatch',
+    flowBoard: 'flowboard',
     contact: 'kontakt',
   },
   hero: {
@@ -341,6 +342,32 @@ export const content: SiteContent = {
           iconKey: 'mappin',
           title: 'Echte Bar-Daten',
           description: 'Live-Daten von OpenStreetMap mit Standorten und \u00d6ffnungszeiten.',
+        },
+      ],
+      cta: 'ausprobieren \u2192',
+      tryDemo: 'app \u00f6ffnen',
+    },
+  },
+  flowBoard: {
+    showcase: {
+      title: 'flowboard',
+      description:
+        'Ein hybrides Planungstool, das Kanban-Spalten mit einem Freeform-Canvas kombiniert. Karten zwischen Modi verschieben, Ideen visuell verbinden und komplett offline arbeiten.',
+      valueProps: [
+        {
+          iconKey: 'columns',
+          title: 'Kanban + Canvas',
+          description: 'Wechsle zwischen strukturierten Spalten und freiem Whiteboard.',
+        },
+        {
+          iconKey: 'link',
+          title: 'Visuelle Verbindungen',
+          description: 'Pfeile zwischen Karten zeichnen um Abh\u00e4ngigkeiten darzustellen.',
+        },
+        {
+          iconKey: 'offline',
+          title: 'Offline-first',
+          description: 'Alle Daten lokal via IndexedDB gespeichert. Kein Account n\u00f6tig.',
         },
       ],
       cta: 'ausprobieren \u2192',
