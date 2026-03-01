@@ -1,6 +1,7 @@
 'use client';
 
 import type { Session, Member } from '@/lib/barmatch/types';
+import { getAvatarById } from '@/lib/barmatch/avatars';
 import { Button } from '@/components/ui/Button';
 import { ShareSession } from './ShareSession';
 import { MemberAvatars } from './MemberAvatars';
@@ -47,13 +48,15 @@ export function SessionLobby({ session, members, isHost, onStart, starting, erro
           Members ({members.length})
         </p>
         <div className="space-y-2">
-          {members.map((m) => (
+          {members.map((m) => {
+            const avatar = getAvatarById(m.avatar);
+            return (
             <div
               key={m.id}
               className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/20 text-sm font-bold text-amber-300">
-                {m.name[0].toUpperCase()}
+                {avatar ? avatar.render(24) : m.name[0].toUpperCase()}
               </div>
               <span className="text-sm font-medium text-white/80">{m.name}</span>
               {m.isHost && (
@@ -62,13 +65,14 @@ export function SessionLobby({ session, members, isHost, onStart, starting, erro
                 </span>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {/* Member avatars summary */}
       <div className="mt-4">
-        <MemberAvatars names={members.map((m) => m.name)} />
+        <MemberAvatars members={members} />
       </div>
 
       {/* Start button (host only) */}

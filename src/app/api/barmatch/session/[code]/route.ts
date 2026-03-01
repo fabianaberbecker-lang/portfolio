@@ -48,6 +48,7 @@ export async function GET(
         id: m.id,
         sessionId: m.session_id,
         name: m.name,
+        avatar: m.avatar ?? undefined,
         isHost: m.is_host,
         joinedAt: m.joined_at,
       })),

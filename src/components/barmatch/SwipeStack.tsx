@@ -8,16 +8,19 @@ import { SwipeCard } from './SwipeCard';
 interface SwipeStackProps {
   bars: Bar[];
   onVote: (barId: string, like: boolean) => void;
+  onUndo?: (barId: string) => void;
   onInfo?: (bar: Bar) => void;
   onEmpty?: () => void;
+  onIndexChange?: (index: number) => void;
 }
 
 const SWIPE_THRESHOLD = 120;
 const SWIPE_VELOCITY = 500;
 
-export function SwipeStack({ bars, onVote, onInfo, onEmpty }: SwipeStackProps) {
+export function SwipeStack({ bars, onVote, onUndo, onInfo, onEmpty, onIndexChange }: SwipeStackProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
+  const [undoing, setUndoing] = useState(false);
 
   const currentBar = bars[currentIndex];
   const nextBar = bars[currentIndex + 1];
@@ -30,15 +33,31 @@ export function SwipeStack({ bars, onVote, onInfo, onEmpty }: SwipeStackProps) {
       onVote(currentBar.id, dir === 'right');
 
       setTimeout(() => {
-        setCurrentIndex((i) => i + 1);
+        const nextIdx = currentIndex + 1;
+        setCurrentIndex(nextIdx);
         setDirection(null);
-        if (currentIndex + 1 >= bars.length) {
+        onIndexChange?.(nextIdx);
+        if (nextIdx >= bars.length) {
           onEmpty?.();
         }
       }, 300);
     },
-    [currentBar, currentIndex, bars.length, onVote, onEmpty]
+    [currentBar, currentIndex, bars.length, onVote, onEmpty, onIndexChange]
   );
+
+  const handleUndo = useCallback(() => {
+    if (currentIndex <= 0 || !onUndo) return;
+    const prevIndex = currentIndex - 1;
+    const prevBar = bars[prevIndex];
+    if (!prevBar) return;
+
+    setUndoing(true);
+    onUndo(prevBar.id);
+    setCurrentIndex(prevIndex);
+    onIndexChange?.(prevIndex);
+
+    setTimeout(() => setUndoing(false), 300);
+  }, [currentIndex, bars, onUndo, onIndexChange]);
 
   const handleDragEnd = useCallback(
     (_: unknown, info: PanInfo) => {
@@ -54,14 +73,7 @@ export function SwipeStack({ bars, onVote, onInfo, onEmpty }: SwipeStackProps) {
   );
 
   if (!currentBar) {
-    return (
-      <div className="flex h-[460px] items-center justify-center rounded-3xl border border-white/5 bg-white/[0.02]">
-        <div className="text-center">
-          <p className="text-lg font-bold text-white/60">No more bars</p>
-          <p className="mt-1 text-sm text-white/30">You&apos;ve swiped through all options</p>
-        </div>
-      </div>
-    );
+    return null; // Parent handles the empty/no-match state
   }
 
   return (
@@ -91,7 +103,10 @@ export function SwipeStack({ bars, onVote, onInfo, onEmpty }: SwipeStackProps) {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.7}
             onDragEnd={handleDragEnd}
-            initial={{ scale: 0.95, opacity: 0 }}
+            initial={undoing
+              ? { scale: 1, opacity: 1, x: 0 }
+              : { scale: 0.95, opacity: 0 }
+            }
             animate={{ scale: 1, opacity: 1, x: 0, rotate: 0 }}
             exit={{
               x: direction === 'right' ? 500 : -500,
@@ -119,7 +134,25 @@ export function SwipeStack({ bars, onVote, onInfo, onEmpty }: SwipeStackProps) {
       </div>
 
       {/* Action buttons */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
+        {/* Undo */}
+        {onUndo && (
+          <button
+            onClick={handleUndo}
+            disabled={currentIndex <= 0}
+            className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border transition-all ${
+              currentIndex > 0
+                ? 'border-amber-400/30 bg-amber-500/10 text-amber-400 hover:scale-110 hover:bg-amber-500/20'
+                : 'border-white/5 bg-white/[0.02] text-white/15 cursor-default'
+            }`}
+            aria-label="Undo"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l4-4M3 10l4 4" />
+            </svg>
+          </button>
+        )}
+
         <button
           onClick={() => handleSwipe('left')}
           className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-red-400/30 bg-red-500/10 text-red-400 transition-all hover:scale-110 hover:bg-red-500/20 active:scale-95"

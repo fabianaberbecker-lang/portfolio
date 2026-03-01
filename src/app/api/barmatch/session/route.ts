@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { hostName, lat, lng, radiusM, filters } = body;
+    const { hostName, lat, lng, radiusM, filters, avatar } = body;
 
     if (!hostName || lat == null || lng == null) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -38,18 +38,34 @@ export async function POST(request: NextRequest) {
 
     if (sessionError) throw sessionError;
 
-    // Add host as member
-    const { data: member, error: memberError } = await supabase
+    // Add host as member (retry without avatar if column doesn't exist yet)
+    let member;
+    const memberInsert = {
+      session_id: session.id,
+      name: hostName,
+      is_host: true,
+      ...(avatar ? { avatar } : {}),
+    };
+    const { data: m1, error: e1 } = await supabase
       .from('barmatch_members')
-      .insert({
-        session_id: session.id,
-        name: hostName,
-        is_host: true,
-      })
+      .insert(memberInsert)
       .select()
       .single();
 
-    if (memberError) throw memberError;
+    if (e1 && e1.code === 'PGRST204') {
+      // avatar column doesn't exist yet — retry without it
+      const { data: m2, error: e2 } = await supabase
+        .from('barmatch_members')
+        .insert({ session_id: session.id, name: hostName, is_host: true })
+        .select()
+        .single();
+      if (e2) throw e2;
+      member = m2;
+    } else if (e1) {
+      throw e1;
+    } else {
+      member = m1;
+    }
 
     return NextResponse.json({
       code: session.code,

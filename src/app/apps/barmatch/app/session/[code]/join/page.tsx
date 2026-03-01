@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { AvatarPicker } from '@/components/barmatch/AvatarPicker';
 import { isSupabaseConfigured } from '@/lib/barmatch/supabase';
 
 export default function JoinSessionPage() {
@@ -11,6 +12,7 @@ export default function JoinSessionPage() {
   const params = useParams();
   const code = (params.code as string).toUpperCase();
   const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState<string | undefined>(undefined);
   const [joining, setJoining] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validating, setValidating] = useState(true);
@@ -56,7 +58,7 @@ export default function JoinSessionPage() {
         const res = await fetch(`/api/barmatch/session/${code}/join`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name.trim() }),
+          body: JSON.stringify({ name: name.trim(), avatar }),
         });
 
         if (!res.ok) {
@@ -66,6 +68,7 @@ export default function JoinSessionPage() {
 
         const data = await res.json();
         sessionStorage.setItem(`bm-member-${code}`, data.memberId);
+        if (avatar) sessionStorage.setItem(`bm-avatar-${code}`, avatar);
         router.push(`/apps/barmatch/app/session/${code}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -145,6 +148,8 @@ export default function JoinSessionPage() {
               onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
             />
           </div>
+
+          <AvatarPicker selected={avatar} onSelect={setAvatar} />
 
           {error && <p className="text-sm text-red-400">{error}</p>}
 

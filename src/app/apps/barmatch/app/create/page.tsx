@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { LocationPicker } from '@/components/barmatch/LocationPicker';
 import { FilterPanel } from '@/components/barmatch/FilterPanel';
+import { AvatarPicker } from '@/components/barmatch/AvatarPicker';
 import { isSupabaseConfigured } from '@/lib/barmatch/supabase';
 import { generateSessionCode } from '@/lib/barmatch/utils';
 import type { SessionFilters } from '@/lib/barmatch/types';
@@ -16,6 +17,7 @@ export default function CreateSessionPage() {
   const router = useRouter();
   const [step, setStep] = useState<'name' | 'location' | 'filters'>('name');
   const [hostName, setHostName] = useState('');
+  const [avatar, setAvatar] = useState<string | undefined>(undefined);
   const [location, setLocation] = useState<{ lat: number; lng: number; label: string } | null>(null);
   const [isGeolocation, setIsGeolocation] = useState(false);
   const [radius, setRadius] = useState(1000);
@@ -44,6 +46,7 @@ export default function CreateSessionPage() {
             lng: location.lng,
             radiusM: effectiveRadius,
             filters,
+            avatar,
           }),
         });
 
@@ -55,6 +58,7 @@ export default function CreateSessionPage() {
         const data = await res.json();
         sessionStorage.setItem(`bm-member-${data.code}`, data.memberId);
         sessionStorage.setItem(`bm-host-${data.code}`, 'true');
+        if (avatar) sessionStorage.setItem(`bm-avatar-${data.code}`, avatar);
         router.push(`/apps/barmatch/app/session/${data.code}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -72,6 +76,7 @@ export default function CreateSessionPage() {
       }));
       sessionStorage.setItem(`bm-host-${code}`, 'true');
       sessionStorage.setItem(`bm-member-${code}`, 'demo-host');
+      if (avatar) sessionStorage.setItem(`bm-avatar-${code}`, avatar);
       router.push(`/apps/barmatch/app/session/${code}`);
     }
   };
@@ -124,6 +129,7 @@ export default function CreateSessionPage() {
                 autoFocus
               />
             </div>
+            <AvatarPicker selected={avatar} onSelect={setAvatar} />
             <Button
               variant="nightlife"
               size="lg"

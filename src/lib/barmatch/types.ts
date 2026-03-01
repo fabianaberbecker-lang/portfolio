@@ -59,12 +59,19 @@ export interface Session {
 
 export interface SessionFilters {
   types?: string[];
+  priceRange?: [number, number]; // e.g. [1, 3] for $ to $$$
+  openNow?: boolean;
+  outdoorOnly?: boolean;
 }
+
+// barId → memberId → liked
+export type VoteMap = Record<string, Record<string, boolean>>;
 
 export interface Member {
   id: string;
   sessionId: string;
   name: string;
+  avatar?: string;
   isHost: boolean;
   joinedAt: string;
 }

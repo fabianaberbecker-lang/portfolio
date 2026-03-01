@@ -13,7 +13,7 @@ export async function POST(
 
   try {
     const body = await request.json();
-    const { name } = body;
+    const { name, avatar } = body;
 
     if (!name?.trim()) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 });
@@ -36,25 +36,43 @@ export async function POST(
       return NextResponse.json({ error: 'Session has ended' }, { status: 410 });
     }
 
-    // Add member
-    const { data: member, error: memberError } = await supabase
+    // Add member (retry without avatar if column doesn't exist yet)
+    const memberInsert = {
+      session_id: session.id,
+      name: name.trim(),
+      is_host: false,
+      ...(avatar ? { avatar } : {}),
+    };
+    let member;
+    const { data: m1, error: e1 } = await supabase
       .from('barmatch_members')
-      .insert({
-        session_id: session.id,
-        name: name.trim(),
-        is_host: false,
-      })
+      .insert(memberInsert)
       .select()
       .single();
 
-    if (memberError) {
-      if (memberError.code === '23505') {
+    if (e1 && e1.code === 'PGRST204') {
+      const { data: m2, error: e2 } = await supabase
+        .from('barmatch_members')
+        .insert({ session_id: session.id, name: name.trim(), is_host: false })
+        .select()
+        .single();
+      if (e2) {
+        if (e2.code === '23505') {
+          return NextResponse.json({ error: 'Name already taken in this session' }, { status: 409 });
+        }
+        throw e2;
+      }
+      member = m2;
+    } else if (e1) {
+      if (e1.code === '23505') {
         return NextResponse.json({ error: 'Name already taken in this session' }, { status: 409 });
       }
-      throw memberError;
+      throw e1;
+    } else {
+      member = m1;
     }
 
-    return NextResponse.json({ memberId: member.id });
+    return NextResponse.json({ memberId: member!.id });
   } catch (err) {
     console.error('Session join error:', err);
     return NextResponse.json({ error: 'Failed to join session.' }, { status: 500 });

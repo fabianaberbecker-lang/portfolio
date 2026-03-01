@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import type { Bar } from '@/lib/barmatch/types';
+import type { Bar, Member } from '@/lib/barmatch/types';
 import { getBarCategory, barCategoryLabels } from '@/lib/barmatch/types';
+import { getAvatarById } from '@/lib/barmatch/avatars';
 import { formatDistance, mapsUrl } from '@/lib/barmatch/utils';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 
 interface MatchScreenProps {
   bar: Bar;
-  memberNames: string[];
+  members: Member[];
   onContinue?: () => void;
 }
 
@@ -59,7 +60,7 @@ function Confetti() {
   );
 }
 
-export function MatchScreen({ bar, memberNames, onContinue }: MatchScreenProps) {
+export function MatchScreen({ bar, members, onContinue }: MatchScreenProps) {
   const [showConfetti, setShowConfetti] = useState(true);
   const category = getBarCategory(bar.types);
 
@@ -139,18 +140,21 @@ export function MatchScreen({ bar, memberNames, onContinue }: MatchScreenProps) 
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        {memberNames.map((name, i) => (
-          <div
-            key={name}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-300 ring-2 ring-[#0c0a14]"
-            style={{ marginLeft: i > 0 ? -8 : 0 }}
-            title={name}
-          >
-            {name[0].toUpperCase()}
-          </div>
-        ))}
+        {members.map((member, i) => {
+          const avatar = getAvatarById(member.avatar);
+          return (
+            <div
+              key={member.id}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/20 text-xs font-bold text-amber-300 ring-2 ring-[#0c0a14]"
+              style={{ marginLeft: i > 0 ? -8 : 0 }}
+              title={member.name}
+            >
+              {avatar ? avatar.render(24) : member.name[0].toUpperCase()}
+            </div>
+          );
+        })}
         <span className="ml-2 text-xs text-white/40">
-          {memberNames.join(', ')}
+          {members.map((m) => m.name).join(', ')}
         </span>
       </motion.div>
 
