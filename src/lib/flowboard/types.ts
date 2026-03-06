@@ -31,6 +31,7 @@ export interface FlowBoard {
   updatedAt: string;
   defaultMode: ViewMode;
   canvasViewport: CanvasViewport;
+  members: string[];
 }
 
 export interface FlowColumn {
@@ -57,6 +58,11 @@ export interface FlowCard {
   // Canvas position
   canvasX: number;
   canvasY: number;
+  // Rich features
+  checklist: ChecklistItem[];
+  comments: CardComment[];
+  assignees: string[];
+  archived: boolean;
 }
 
 export interface Connector {
@@ -68,6 +74,19 @@ export interface Connector {
   toAnchor: Anchor;
   label?: string;
   style: 'solid' | 'dashed';
+}
+
+export interface ChecklistItem {
+  id: string;
+  text: string;
+  done: boolean;
+}
+
+export interface CardComment {
+  id: string;
+  author: string;
+  text: string;
+  createdAt: string;
 }
 
 export interface CardFilter {

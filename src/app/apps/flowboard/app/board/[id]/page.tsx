@@ -8,6 +8,7 @@ import { KanbanView } from '@/components/flowboard/KanbanView';
 import { CanvasView } from '@/components/flowboard/CanvasView';
 import { CardDetailSheet } from '@/components/flowboard/CardDetailSheet';
 import { CommandPalette } from '@/components/flowboard/CommandPalette';
+import { ArchivePanel } from '@/components/flowboard/ArchivePanel';
 
 export default function BoardPage() {
   const params = useParams();
@@ -21,6 +22,7 @@ export default function BoardPage() {
   const activeMode = useFlowBoardStore((s) => s.activeMode);
   const editingCardId = useFlowBoardStore((s) => s.editingCardId);
   const isCommandPaletteOpen = useFlowBoardStore((s) => s.isCommandPaletteOpen);
+  const isArchiveOpen = useFlowBoardStore((s) => s.isArchiveOpen);
 
   useEffect(() => {
     if (!isLoaded) {
@@ -60,6 +62,7 @@ export default function BoardPage() {
 
       {editingCardId && <CardDetailSheet cardId={editingCardId} />}
       {isCommandPaletteOpen && <CommandPalette boardId={boardId} />}
+      {isArchiveOpen && <ArchivePanel boardId={boardId} />}
     </div>
   );
 }

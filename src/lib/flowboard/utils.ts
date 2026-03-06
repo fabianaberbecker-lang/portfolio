@@ -20,6 +20,32 @@ export function formatRelativeDate(iso: string): string {
   return date.toLocaleDateString();
 }
 
+export type DueDateStatus = 'overdue' | 'soon' | 'normal' | 'complete' | null;
+
+export function getDueDateStatus(dueDate: string | null, checklistDone?: boolean): DueDateStatus {
+  if (!dueDate) return null;
+  if (checklistDone) return 'complete';
+  const due = new Date(dueDate + 'T23:59:59');
+  const now = Date.now();
+  if (due.getTime() < now) return 'overdue';
+  if (due.getTime() - now < 24 * 60 * 60 * 1000) return 'soon';
+  return 'normal';
+}
+
+export function formatDueDate(dueDate: string): string {
+  const due = new Date(dueDate + 'T23:59:59');
+  const now = Date.now();
+  const diff = due.getTime() - now;
+  const days = Math.ceil(diff / 86400000);
+
+  if (days < -1) return `${Math.abs(days)}d overdue`;
+  if (days === -1 || (days === 0 && diff < 0)) return 'Overdue';
+  if (days === 0) return 'Due today';
+  if (days === 1) return 'Due tomorrow';
+  if (days <= 7) return `Due in ${days}d`;
+  return new Date(dueDate).toLocaleDateString();
+}
+
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }

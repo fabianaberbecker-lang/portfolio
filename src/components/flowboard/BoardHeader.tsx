@@ -18,6 +18,9 @@ export function BoardHeader({ board }: BoardHeaderProps) {
   const setMode = useFlowBoardStore((s) => s.setMode);
   const updateBoard = useFlowBoardStore((s) => s.updateBoard);
   const toggleCommandPalette = useFlowBoardStore((s) => s.toggleCommandPalette);
+  const isArchiveOpen = useFlowBoardStore((s) => s.isArchiveOpen);
+  const setArchiveOpen = useFlowBoardStore((s) => s.setArchiveOpen);
+  const archivedCount = useFlowBoardStore((s) => s.cards.filter((c) => c.boardId === board.id && c.archived).length);
   const filter = useFlowBoardStore((s) => s.filter);
   const setFilter = useFlowBoardStore((s) => s.setFilter);
   const [isEditing, setIsEditing] = useState(false);
@@ -109,6 +112,26 @@ export function BoardHeader({ board }: BoardHeaderProps) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <kbd className="rounded bg-white/5 px-1 py-0.5 font-mono text-[10px]">⌘K</kbd>
+        </button>
+
+        {/* Archive */}
+        <button
+          onClick={() => setArchiveOpen(!isArchiveOpen)}
+          title="Archive"
+          className={`relative flex h-7 cursor-pointer items-center gap-1 rounded-md border px-2 text-xs transition-all ${
+            isArchiveOpen
+              ? 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300'
+              : 'border-white/[0.06] text-white/30 hover:bg-white/5 hover:text-white/50'
+          }`}
+        >
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          {archivedCount > 0 && (
+            <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-white/10 px-1 text-[9px] font-bold text-white/50">
+              {archivedCount}
+            </span>
+          )}
         </button>
 
         <ModeToggle mode={activeMode} onChange={setMode} />

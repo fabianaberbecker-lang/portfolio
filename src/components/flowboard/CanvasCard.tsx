@@ -4,6 +4,7 @@ import { useRef, useState, useCallback } from 'react';
 import type { FlowCard } from '@/lib/flowboard/types';
 import { useFlowBoardStore } from '@/lib/flowboard/store';
 import { CARD_COLORS, CANVAS_CARD_WIDTH, CANVAS_CARD_MIN_HEIGHT } from '@/lib/flowboard/constants';
+import { getDueDateStatus, formatDueDate } from '@/lib/flowboard/utils';
 import { PriorityBadge } from './PriorityBadge';
 
 interface CanvasCardProps {
@@ -112,16 +113,15 @@ export function CanvasCard({
     >
       {/* Card body */}
       <div
-        className={`rounded-xl border p-3 transition-colors backdrop-blur-sm ${
-          isDragging ? 'cursor-grabbing shadow-xl shadow-black/30' : 'cursor-grab'
+        className={`glass-card-sm p-3 ${
+          isDragging ? 'cursor-grabbing !shadow-xl !shadow-black/30' : 'cursor-grab'
         } ${
           isSelected
-            ? 'border-indigo-500/50 shadow-lg shadow-indigo-500/10'
-            : 'border-white/[0.08] hover:border-white/15'
+            ? '!border-indigo-500/50 !shadow-lg !shadow-indigo-500/10'
+            : ''
         }`}
         style={{
-          background: colorBg,
-          boxShadow: isDragging ? undefined : '0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)',
+          ...(colorBg ? { background: colorBg } : {}),
         }}
       >
         <div className="flex items-start gap-2">
@@ -145,6 +145,75 @@ export function CanvasCard({
                 {label}
               </span>
             ))}
+          </div>
+        )}
+        {/* Due date */}
+        {card.dueDate && (() => {
+          const cl = card.checklist ?? [];
+          const allDone = cl.length > 0 && cl.every((i) => i.done);
+          const status = getDueDateStatus(card.dueDate, allDone);
+          const sc: Record<string, string> = {
+            overdue: 'bg-red-500/15 text-red-400',
+            soon: 'bg-amber-500/15 text-amber-400',
+            complete: 'bg-emerald-500/15 text-emerald-400 line-through',
+            normal: 'text-white/25',
+          };
+          return (
+            <div className={`mt-1.5 inline-flex items-center gap-0.5 rounded px-1 py-0.5 text-[9px] ${sc[status ?? 'normal']}`}>
+              <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {formatDueDate(card.dueDate)}
+            </div>
+          );
+        })()}
+        {/* Meta footer */}
+        {((card.checklist?.length ?? 0) > 0 || (card.comments?.length ?? 0) > 0 || (card.assignees?.length ?? 0) > 0) && (
+          <div className="mt-1.5 flex items-center gap-2 text-[9px] text-white/25">
+            {(card.checklist?.length ?? 0) > 0 && (() => {
+              const done = card.checklist!.filter((i) => i.done).length;
+              const total = card.checklist!.length;
+              const allDone = done === total;
+              return (
+                <span className={`flex items-center gap-0.5 ${allDone ? 'text-emerald-400/60' : ''}`}>
+                  <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  {done}/{total}
+                </span>
+              );
+            })()}
+            {(card.comments?.length ?? 0) > 0 && (
+              <span className="flex items-center gap-0.5">
+                <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                {card.comments!.length}
+              </span>
+            )}
+            {(card.assignees?.length ?? 0) > 0 && (
+              <span className="ml-auto flex items-center">
+                {card.assignees!.slice(0, 2).map((name, i) => {
+                  const colors = ['bg-indigo-500','bg-pink-500','bg-amber-500','bg-emerald-500','bg-cyan-500','bg-violet-500','bg-rose-500','bg-teal-500'];
+                  let hash = 0;
+                  for (let j = 0; j < name.length; j++) hash = name.charCodeAt(j) + ((hash << 5) - hash);
+                  const bg = colors[Math.abs(hash) % colors.length];
+                  return (
+                    <span
+                      key={name}
+                      className={`flex h-4 w-4 items-center justify-center rounded-full text-[7px] font-bold text-white ring-1 ring-[#0c0e1c] ${bg}`}
+                      style={{ marginLeft: i > 0 ? -3 : 0 }}
+                      title={name}
+                    >
+                      {name[0].toUpperCase()}
+                    </span>
+                  );
+                })}
+                {card.assignees!.length > 2 && (
+                  <span className="ml-0.5 text-[8px] text-white/20">+{card.assignees!.length - 2}</span>
+                )}
+              </span>
+            )}
           </div>
         )}
       </div>

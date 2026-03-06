@@ -1,8 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { useShallow } from 'zustand/react/shallow';
-import { useFlowBoardStore, selectBoardCards, selectBoardConnectors } from '@/lib/flowboard/store';
+import { useFlowBoardStore, useShallowStore } from '@/lib/flowboard/store';
 import { clamp } from '@/lib/flowboard/utils';
 import { screenToCanvas, getBestAnchors } from '@/lib/flowboard/canvas-math';
 import { ZOOM_MIN, ZOOM_MAX, ZOOM_STEP } from '@/lib/flowboard/constants';
@@ -16,8 +15,8 @@ interface CanvasViewProps {
 
 export function CanvasView({ boardId }: CanvasViewProps) {
   const board = useFlowBoardStore((s) => s.boards.find((b) => b.id === boardId));
-  const cards = useFlowBoardStore(useShallow(selectBoardCards(boardId)));
-  const connectors = useFlowBoardStore(useShallow(selectBoardConnectors(boardId)));
+  const cards = useShallowStore((s) => s.cards.filter((c) => c.boardId === boardId && !c.archived), [boardId]);
+  const connectors = useShallowStore((s) => s.connectors.filter((c) => c.boardId === boardId), [boardId]);
   const setCanvasViewport = useFlowBoardStore((s) => s.setCanvasViewport);
   const deselectAll = useFlowBoardStore((s) => s.deselectAll);
   const addCard = useFlowBoardStore((s) => s.addCard);

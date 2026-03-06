@@ -1,5 +1,7 @@
+import { useRef, useCallback } from 'react';
 import { create } from 'zustand';
 import { temporal } from 'zundo';
+import { shallow } from 'zustand/vanilla/shallow';
 import type {
   FlowBoard,
   FlowColumn,
@@ -12,6 +14,8 @@ import type {
   CardColor,
   Anchor,
   BoardData,
+  ChecklistItem,
+  CardComment,
 } from './types';
 import { loadAllBoards, persistBoard, deleteBoard as dbDeleteBoard } from './db';
 import { generateId, now } from './utils';
@@ -40,6 +44,7 @@ interface UIState {
   editingCardId: string | null;
   filter: CardFilter;
   isCommandPaletteOpen: boolean;
+  isArchiveOpen: boolean;
   isLoaded: boolean;
 }
 
@@ -49,7 +54,7 @@ interface FlowBoardActions {
 
   // Board CRUD
   createBoard: (title: string, emoji?: string) => string;
-  updateBoard: (id: string, updates: Partial<Pick<FlowBoard, 'title' | 'emoji' | 'defaultMode'>>) => void;
+  updateBoard: (id: string, updates: Partial<Pick<FlowBoard, 'title' | 'emoji' | 'defaultMode' | 'members'>>) => void;
   deleteBoard: (id: string) => void;
   setActiveBoard: (id: string | null) => void;
 
@@ -61,12 +66,14 @@ interface FlowBoardActions {
 
   // Card CRUD
   addCard: (boardId: string, columnId: string | null, title: string) => string;
-  updateCard: (id: string, updates: Partial<Pick<FlowCard, 'title' | 'description' | 'color' | 'labels' | 'priority' | 'dueDate'>>) => void;
+  updateCard: (id: string, updates: Partial<Pick<FlowCard, 'title' | 'description' | 'color' | 'labels' | 'priority' | 'dueDate' | 'checklist' | 'comments' | 'assignees'>>) => void;
   deleteCard: (id: string) => void;
   moveCardToColumn: (cardId: string, targetColumnId: string, targetIndex: number) => void;
   moveCardOnCanvas: (cardId: string, x: number, y: number) => void;
   reorderCardsInColumn: (columnId: string, orderedCardIds: string[]) => void;
   duplicateCard: (id: string) => string | null;
+  archiveCard: (id: string) => void;
+  restoreCard: (id: string) => void;
 
   // Selection
   selectCard: (id: string, multi?: boolean) => void;
@@ -85,6 +92,7 @@ interface FlowBoardActions {
   clearFilter: () => void;
   toggleCommandPalette: () => void;
   setCommandPaletteOpen: (open: boolean) => void;
+  setArchiveOpen: (open: boolean) => void;
 }
 
 export type FlowBoardState = DataState & UIState & FlowBoardActions;
@@ -112,6 +120,7 @@ export const useFlowBoardStore = create<FlowBoardState>()(
       editingCardId: null,
       filter: { ...defaultFilter },
       isCommandPaletteOpen: false,
+      isArchiveOpen: false,
       isLoaded: false,
 
       // ---- Load ----
@@ -148,6 +157,7 @@ export const useFlowBoardStore = create<FlowBoardState>()(
           updatedAt: timestamp,
           defaultMode: 'kanban',
           canvasViewport: { ...DEFAULT_VIEWPORT },
+          members: [],
         };
 
         // Create default columns
@@ -272,6 +282,10 @@ export const useFlowBoardStore = create<FlowBoardState>()(
           columnOrder,
           canvasX,
           canvasY,
+          checklist: [],
+          comments: [],
+          assignees: [],
+          archived: false,
         };
 
         set((s) => ({ cards: [...s.cards, card] }));
@@ -375,10 +389,38 @@ export const useFlowBoardStore = create<FlowBoardState>()(
           columnOrder: card.columnOrder + 1,
           canvasX: card.canvasX + 20,
           canvasY: card.canvasY + 20,
+          checklist: (card.checklist ?? []).map((item) => ({ ...item, id: generateId() })),
+          comments: [],
+          assignees: [...(card.assignees ?? [])],
+          archived: false,
         };
         set((s) => ({ cards: [...s.cards, duplicate] }));
         schedulePersist(get, card.boardId);
         return newId;
+      },
+
+      archiveCard: (id) => {
+        const card = get().cards.find((c) => c.id === id);
+        if (!card) return;
+        set((s) => ({
+          cards: s.cards.map((c) =>
+            c.id === id ? { ...c, archived: true, updatedAt: now() } : c
+          ),
+          editingCardId: s.editingCardId === id ? null : s.editingCardId,
+          selectedCardIds: s.selectedCardIds.filter((sid) => sid !== id),
+        }));
+        schedulePersist(get, card.boardId);
+      },
+
+      restoreCard: (id) => {
+        const card = get().cards.find((c) => c.id === id);
+        if (!card) return;
+        set((s) => ({
+          cards: s.cards.map((c) =>
+            c.id === id ? { ...c, archived: false, updatedAt: now() } : c
+          ),
+        }));
+        schedulePersist(get, card.boardId);
       },
 
       // ---- Selection ----
@@ -488,6 +530,8 @@ export const useFlowBoardStore = create<FlowBoardState>()(
       },
 
       setCommandPaletteOpen: (open) => set({ isCommandPaletteOpen: open }),
+
+      setArchiveOpen: (open) => set({ isArchiveOpen: open }),
     }),
     {
       // Only track data slices for undo/redo
@@ -542,16 +586,19 @@ export const selectBoardColumns = (boardId: string) => (state: FlowBoardState) =
   state.columns.filter((c) => c.boardId === boardId).sort((a, b) => a.order - b.order);
 
 export const selectBoardCards = (boardId: string) => (state: FlowBoardState) =>
-  state.cards.filter((c) => c.boardId === boardId);
+  state.cards.filter((c) => c.boardId === boardId && !c.archived);
 
 export const selectColumnCards = (columnId: string) => (state: FlowBoardState) =>
-  state.cards.filter((c) => c.columnId === columnId).sort((a, b) => a.columnOrder - b.columnOrder);
+  state.cards.filter((c) => c.columnId === columnId && !c.archived).sort((a, b) => a.columnOrder - b.columnOrder);
 
 export const selectBoardConnectors = (boardId: string) => (state: FlowBoardState) =>
   state.connectors.filter((c) => c.boardId === boardId);
 
+export const selectArchivedCards = (boardId: string) => (state: FlowBoardState) =>
+  state.cards.filter((c) => c.boardId === boardId && c.archived);
+
 export const selectFilteredCards = (boardId: string) => (state: FlowBoardState) => {
-  let filtered = state.cards.filter((c) => c.boardId === boardId);
+  let filtered = state.cards.filter((c) => c.boardId === boardId && !c.archived);
   const { search, labels, priorities, colors } = state.filter;
 
   if (search) {
@@ -575,3 +622,21 @@ export const selectFilteredCards = (boardId: string) => (state: FlowBoardState) 
 
   return filtered;
 };
+
+// ---- Stable shallow selector hook (fixes React 19 getSnapshot caching) ----
+
+export function useShallowStore<T>(
+  selector: (state: FlowBoardState) => T,
+  deps: unknown[],
+): T {
+  const prevRef = useRef<T>(undefined);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableSelector = useCallback((state: FlowBoardState) => {
+    const next = selector(state);
+    if (prevRef.current !== undefined && shallow(prevRef.current, next))
+      return prevRef.current;
+    prevRef.current = next;
+    return next;
+  }, deps);
+  return useFlowBoardStore(stableSelector);
+}

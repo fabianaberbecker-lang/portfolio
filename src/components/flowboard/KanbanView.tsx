@@ -17,8 +17,7 @@ import {
   SortableContext,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { useShallow } from 'zustand/react/shallow';
-import { useFlowBoardStore, selectBoardColumns, selectBoardCards } from '@/lib/flowboard/store';
+import { useFlowBoardStore, useShallowStore } from '@/lib/flowboard/store';
 import { KanbanColumn } from './KanbanColumn';
 import { KanbanCard } from './KanbanCard';
 
@@ -27,8 +26,8 @@ interface KanbanViewProps {
 }
 
 export function KanbanView({ boardId }: KanbanViewProps) {
-  const columns = useFlowBoardStore(useShallow(selectBoardColumns(boardId)));
-  const cards = useFlowBoardStore(useShallow(selectBoardCards(boardId)));
+  const columns = useShallowStore((s) => s.columns.filter((c) => c.boardId === boardId).sort((a, b) => a.order - b.order), [boardId]);
+  const cards = useShallowStore((s) => s.cards.filter((c) => c.boardId === boardId && !c.archived), [boardId]);
   const addColumn = useFlowBoardStore((s) => s.addColumn);
   const moveCardToColumn = useFlowBoardStore((s) => s.moveCardToColumn);
   const reorderCardsInColumn = useFlowBoardStore((s) => s.reorderCardsInColumn);
