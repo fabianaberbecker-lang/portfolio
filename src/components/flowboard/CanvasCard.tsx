@@ -1,32 +1,39 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState } from 'react';
 import type { FlowCard } from '@/lib/flowboard/types';
 import { useFlowBoardStore } from '@/lib/flowboard/store';
-import { CARD_COLORS, CANVAS_CARD_WIDTH, CANVAS_CARD_MIN_HEIGHT } from '@/lib/flowboard/constants';
+import { CARD_COLORS, CANVAS_CARD_WIDTH, CANVAS_CARD_MIN_HEIGHT, GRID_SNAP } from '@/lib/flowboard/constants';
 import { getDueDateStatus, formatDueDate } from '@/lib/flowboard/utils';
 import { PriorityBadge } from './PriorityBadge';
 
 interface CanvasCardProps {
   card: FlowCard;
   zoom: number;
+  snapToGrid: boolean;
   onDragUpdate: (x: number, y: number) => void;
-  onDragEnd: () => void;
+  onDragEnd: (x: number, y: number) => void;
   onConnectorStart: (cardId: string, anchorX: number, anchorY: number) => void;
   onConnectorEnd: (cardId: string) => void;
   isConnecting: boolean;
+  onContextMenu: (e: React.MouseEvent) => void;
+  isMultiSelected: boolean;
+  onMultiDragStart: (cardId: string, startX: number, startY: number) => void;
 }
 
 export function CanvasCard({
   card,
   zoom,
+  snapToGrid,
   onDragUpdate,
   onDragEnd,
   onConnectorStart,
   onConnectorEnd,
   isConnecting,
+  onContextMenu,
+  isMultiSelected,
+  onMultiDragStart,
 }: CanvasCardProps) {
-  const moveCardOnCanvas = useFlowBoardStore((s) => s.moveCardOnCanvas);
   const selectCard = useFlowBoardStore((s) => s.selectCard);
   const setEditingCard = useFlowBoardStore((s) => s.setEditingCard);
   const isSelected = useFlowBoardStore((s) => s.selectedCardIds.includes(card.id));
@@ -44,6 +51,10 @@ export function CanvasCard({
   const displayX = isDragging ? localX : card.canvasX;
   const displayY = isDragging ? localY : card.canvasY;
 
+  function snap(v: number): number {
+    return snapToGrid ? Math.round(v / GRID_SNAP) * GRID_SNAP : Math.round(v);
+  }
+
   function handlePointerDown(e: React.PointerEvent) {
     if (e.button !== 0) return;
     e.stopPropagation();
@@ -52,6 +63,12 @@ export function CanvasCard({
     // If connecting, this is the target
     if (isConnecting) {
       onConnectorEnd(card.id);
+      return;
+    }
+
+    // Multi-drag: if this card is part of a multi-selection, delegate to parent
+    if (isMultiSelected) {
+      onMultiDragStart(card.id, e.clientX, e.clientY);
       return;
     }
 
@@ -70,8 +87,8 @@ export function CanvasCard({
     if (!isDragging) return;
     const dx = (e.clientX - dragStart.current.x) / zoom;
     const dy = (e.clientY - dragStart.current.y) / zoom;
-    const newX = Math.round(dragStart.current.cardX + dx);
-    const newY = Math.round(dragStart.current.cardY + dy);
+    const newX = snap(dragStart.current.cardX + dx);
+    const newY = snap(dragStart.current.cardY + dy);
     setLocalX(newX);
     setLocalY(newY);
     onDragUpdate(newX, newY);
@@ -80,8 +97,7 @@ export function CanvasCard({
   function handlePointerUp() {
     if (!isDragging) return;
     setIsDragging(false);
-    moveCardOnCanvas(card.id, localX, localY);
-    onDragEnd();
+    onDragEnd(localX, localY);
   }
 
   // Anchor points for connectors
@@ -106,6 +122,11 @@ export function CanvasCard({
       onPointerUp={handlePointerUp}
       onPointerEnter={() => setIsHovered(true)}
       onPointerLeave={() => setIsHovered(false)}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onContextMenu(e);
+      }}
       onDoubleClick={(e) => {
         e.stopPropagation();
         setEditingCard(card.id);
@@ -118,6 +139,10 @@ export function CanvasCard({
         } ${
           isSelected
             ? '!border-indigo-500/50 !shadow-lg !shadow-indigo-500/10'
+            : ''
+        } ${
+          isMultiSelected
+            ? '!border-indigo-400/60 ring-1 ring-indigo-400/20'
             : ''
         }`}
         style={{

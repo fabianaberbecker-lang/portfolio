@@ -77,8 +77,14 @@ interface FlowBoardActions {
 
   // Selection
   selectCard: (id: string, multi?: boolean) => void;
+  selectAll: (boardId: string) => void;
   deselectAll: () => void;
   setEditingCard: (id: string | null) => void;
+
+  // Multi-card operations
+  deleteSelectedCards: () => void;
+  duplicateSelectedCards: () => void;
+  moveSelectedOnCanvas: (dx: number, dy: number) => void;
 
   // Connector CRUD
   addConnector: (boardId: string, fromCardId: string, toCardId: string, fromAnchor: Anchor, toAnchor: Anchor) => string;
@@ -438,9 +444,74 @@ export const useFlowBoardStore = create<FlowBoardState>()(
         });
       },
 
+      selectAll: (boardId) => {
+        const ids = get().cards.filter((c) => c.boardId === boardId && !c.archived).map((c) => c.id);
+        set({ selectedCardIds: ids });
+      },
+
       deselectAll: () => set({ selectedCardIds: [] }),
 
       setEditingCard: (id) => set({ editingCardId: id }),
+
+      // ---- Multi-card operations ----
+      deleteSelectedCards: () => {
+        const { selectedCardIds, cards, connectors } = get();
+        if (selectedCardIds.length === 0) return;
+        const idSet = new Set(selectedCardIds);
+        const boardId = cards.find((c) => idSet.has(c.id))?.boardId;
+        set((s) => ({
+          cards: s.cards.filter((c) => !idSet.has(c.id)),
+          connectors: s.connectors.filter(
+            (c) => !idSet.has(c.fromCardId) && !idSet.has(c.toCardId)
+          ),
+          selectedCardIds: [],
+          editingCardId: idSet.has(s.editingCardId ?? '') ? null : s.editingCardId,
+        }));
+        if (boardId) schedulePersist(get, boardId);
+      },
+
+      duplicateSelectedCards: () => {
+        const { selectedCardIds, cards } = get();
+        if (selectedCardIds.length === 0) return;
+        const timestamp = now();
+        const newCards: FlowCard[] = [];
+        const idMap = new Map<string, string>();
+        for (const id of selectedCardIds) {
+          const card = cards.find((c) => c.id === id);
+          if (!card) continue;
+          const newId = generateId();
+          idMap.set(id, newId);
+          newCards.push({
+            ...card,
+            id: newId,
+            title: `${card.title} (copy)`,
+            createdAt: timestamp,
+            updatedAt: timestamp,
+            canvasX: card.canvasX + 30,
+            canvasY: card.canvasY + 30,
+            checklist: (card.checklist ?? []).map((item) => ({ ...item, id: generateId() })),
+            comments: [],
+            archived: false,
+          });
+        }
+        set((s) => ({
+          cards: [...s.cards, ...newCards],
+          selectedCardIds: newCards.map((c) => c.id),
+        }));
+        const boardId = newCards[0]?.boardId;
+        if (boardId) schedulePersist(get, boardId);
+      },
+
+      moveSelectedOnCanvas: (dx, dy) => {
+        const { selectedCardIds } = get();
+        if (selectedCardIds.length === 0) return;
+        const idSet = new Set(selectedCardIds);
+        set((s) => ({
+          cards: s.cards.map((c) =>
+            idSet.has(c.id) ? { ...c, canvasX: c.canvasX + dx, canvasY: c.canvasY + dy, updatedAt: now() } : c
+          ),
+        }));
+      },
 
       // ---- Connector CRUD ----
       addConnector: (boardId, fromCardId, toCardId, fromAnchor, toAnchor) => {
