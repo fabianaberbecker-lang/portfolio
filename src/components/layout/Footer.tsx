@@ -73,18 +73,6 @@ export function Footer() {
                     </div>
                 )}
 
-                {/* TMDB attribution */}
-                <p className={`text-xs ${isDarkAppFooter ? 'text-white/20' : 'text-muted/50'}`}>
-                    {t.footer.tmdbAttribution}{' '}
-                    <Link
-                        href="https://www.themoviedb.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline hover:text-accent"
-                    >
-                        TMDB
-                    </Link>
-                </p>
             </div>
         </footer>
     );

@@ -62,15 +62,15 @@ export function HeroSection() {
           </a>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link href="/projects">
-              <Button size="lg">{t.hero.viewProjects}</Button>
+              <Button variant="purple" size="lg">{t.hero.viewProjects}</Button>
             </Link>
             <Link href="/contact">
-              <Button variant="secondary" size="lg">
+              <Button variant="green" size="lg">
                 {t.hero.getInTouch}
               </Button>
             </Link>
             <a href="/fabian-becker-cv.pdf" download>
-              <Button variant="secondary" size="lg">
+              <Button variant="coral" size="lg">
                 {t.hero.downloadCv}
               </Button>
             </a>

@@ -9,6 +9,7 @@ export interface SiteContent {
     home: string;
     projects: string;
     about: string;
+    demos: string;
     streamingFinder: string;
     barMatch: string;
     flowBoard: string;

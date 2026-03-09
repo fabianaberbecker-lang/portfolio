@@ -5,116 +5,72 @@ export const projectsDe: Project[] = [
     slug: 'streaming-finder',
     title: 'Streaming Finder',
     summary:
-      'Eine Web-App, mit der Nutzer nach Filmen und Serien suchen und sofort sehen können, wo sie streamen, leihen oder kaufen können — alles an einem Ort.',
+      'Suche nach Filmen oder Serien und sieh sofort, wo du streamen, leihen oder kaufen kannst — in 40+ Ländern, mit persönlichem Abo-Tracking, Verfügbarkeits-Alarmen und Trending-Inhalten.',
     status: 'shipped',
     role: 'Product Manager & Entwickler',
-    scope: 'End-to-End: Konzept, Design, Entwicklung und Launch.',
+    scope: 'End-to-End: Konzept, Design, API-Integration, Push-Benachrichtigungen und Launch.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'TMDB API'],
     problem:
-      'Herauszufinden, wo ein bestimmter Film oder eine Serie zum Streaming verfügbar ist, wird immer frustrierender, da Inhalte über Dutzende von Plattformen verteilt sind. Nutzer verschwenden Zeit beim Wechseln zwischen Apps.',
+      'Streaming-Inhalte sind über Dutzende Plattformen verteilt, und die Verfügbarkeit variiert je nach Region. Nutzer verschwenden Zeit damit, mehrere Apps zu öffnen oder unzuverlässige Drittanbieter-Seiten zu durchsuchen.',
     approach:
-      'Aufbau einer responsiven, suchorientierten Oberfläche basierend auf der TMDB Watch-Provider-API. Design einer Provider-Abstraktionsschicht für spätere Integration von Preisvergleichs-APIs. Implementierung von Debounced Search, Server-Side Caching und sauberen Fehlerzuständen.',
+      'Aufbau einer suchorientierten Oberfläche basierend auf der TMDB Watch-Provider-API mit Echtzeit-Debounced-Search. Nutzer können ihre Abos speichern und personalisierte Ergebnisse erhalten, aufgeschlüsselt nach Streaming-, Leih- und Kaufoptionen. Push-Benachrichtigungen informieren, wenn ein Titel auf den eigenen Diensten verfügbar wird. Eine Provider-Abstraktionsschicht ermöglicht zukünftige API-Integrationen ohne Frontend-Änderungen.',
     outcome:
-      'MVP liefert sofortige Streaming-Verfügbarkeitsabfragen für 40+ Länder. Provider-Abstraktionsarchitektur reduziert zukünftigen Integrationsaufwand um ~70%. Mobile-First UI erreicht Lighthouse-Scores über 90.',
+      'Sofortige Verfügbarkeitsabfragen in 40+ Ländern mit abo-basierter Filterung. Trending-Inhalte für Filme und Serien. Push-basierte Verfügbarkeitsalarme halten Nutzer informiert. Saubere, mobile-first Cinema-UI.',
     links: {
       demo: '/apps/streaming-finder',
     },
     highlights: [
-      'Debounced Search mit Autocomplete',
-      'Provider-Abstraktion für einfachen API-Wechsel',
-      'Server-Side Caching zur Minimierung von API-Aufrufen',
+      'Persönliches Abo-Tracking mit regionaler Filterung',
+      'Push-Benachrichtigungen für Streaming-Verfügbarkeit',
+      'Trending-Filme und -Serien mit Echtzeit-Daten',
     ],
   },
   {
     slug: 'barmatch',
     title: 'BarMatch',
     summary:
-      'Eine Gruppen-Entscheidungs-App, die Freunden hilft, gemeinsam eine Bar zu finden. Session erstellen, durch Bars swipen und matchen, wenn alle einig sind.',
+      'Eine Echtzeit-Gruppen-App, die Freunden hilft, sich auf eine Bar zu einigen. Session erstellen, per Link oder QR-Code einladen, durch Bars swipen und matchen.',
     status: 'shipped',
     role: 'Product Manager & Entwickler',
-    scope: 'End-to-End: Konzept, UX-Design, Datenintegration, Echtzeit-Kollaboration und Launch.',
+    scope: 'End-to-End: Konzept, UX-Design, Geolocation, Echtzeit-Kollaboration und Launch.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'OpenStreetMap', 'Supabase', 'Framer Motion'],
     problem:
-      'Freundesgruppen verschwenden Zeit mit der Diskussion, wohin sie ausgehen sollen. Hin- und Herschreiben, Google Maps durchsuchen und einen Konsens finden ist langsam und frustrierend.',
+      'Sich als Gruppe auf eine Bar zu einigen ist überraschend schwierig. Freunde schreiben hin und her, scrollen durch Google Maps und kommen selten zu einer Entscheidung, mit der alle zufrieden sind.',
     approach:
-      'Aufbau einer Tinder-artigen Swipe-Oberfläche für Bars in der Nähe. Der Host erstellt eine Session, teilt einen Link, und alle swipen unabhängig. Eine BarDataProvider-Abstraktionsschicht unterstützt mehrere Datenquellen (OpenStreetMap Overpass, Google Places). Supabase übernimmt Echtzeit-Vote-Synchronisation und Match-Erkennung.',
+      'Aufbau einer Tinder-artigen Swipe-Oberfläche mit echten Bar-Daten von OpenStreetMap. Der Host erstellt eine Session mit Standort und Filteroptionen (Bar-Typ, Preisklasse, Jetzt geöffnet, Außenbereich), dann teilt er einen Link oder QR-Code. Alle Teilnehmer swipen unabhängig, wobei Supabase die Echtzeit-Vote-Synchronisation und automatische Match-Erkennung übernimmt. Eigene SVG-Avatare und Live-Voting-Statusanzeigen machen das Erlebnis sozial. Ein vollständiger Demo-Modus mit simuliertem Voting läuft komplett über sessionStorage.',
     outcome:
-      'Voll funktionsfähige Gruppen-Swipe-App mit Live-Sessions, echten Bar-Daten von OpenStreetMap, Match-Erkennung und Navigation per "In Maps öffnen". Provider-Abstraktion ermöglicht einfachen Datenquellenwechsel.',
+      'Voll funktionsfähige Gruppen-Swipe-App mit Live-Sessions, standortbasierter Bar-Suche, Filteroptionen und automatischer Match-Erkennung. Undo-Funktion, Fortschrittsanzeige und Navigation per "In Maps öffnen" runden das Erlebnis ab. Provider-Abstraktion ermöglicht den Wechsel der Datenquelle ohne UI-Änderungen.',
     links: {
       demo: '/apps/barmatch',
     },
     highlights: [
-      'Tinder-artige Swipe-UI mit Gesten-Support',
-      'Echtzeit-Gruppen-Sessions via Supabase',
-      'Provider-Abstraktion (OSM / Google Places)',
+      'Echtzeit-Gruppen-Sessions mit Live-Voting-Status',
+      'Geolocation + Filter (Typ, Preis, Geöffnet, Außen)',
+      'Vollständiger Demo-Modus mit simuliertem Voting',
     ],
   },
   {
     slug: 'flowboard',
     title: 'FlowBoard',
     summary:
-      'Ein hybrides Planungstool, das Kanban-Spalten mit einem freien Canvas kombiniert. Karten zwischen Modi ziehen, Ideen visuell verbinden und komplett offline arbeiten.',
+      'Ein hybrides Planungstool, das Kanban-Spalten mit einem Freeform-Canvas vereint. Nahtlos zwischen Modi wechseln, Karten visuell verbinden, Checklisten und Fälligkeiten verwalten — alles offline.',
     status: 'shipped',
     role: 'Product Manager & Entwickler',
     scope: 'End-to-End: Konzept, Design-System, State Management, Offline-First-Architektur und PWA-Launch.',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Zustand', 'IndexedDB', 'dnd-kit'],
     problem:
-      'Bestehende Projekttools zwingen Nutzer zur Wahl zwischen strukturierten Boards (Trello) oder freien Canvases (Miro). Der Wechsel zwischen ihnen unterbricht den Flow und verstreut Informationen.',
+      'Projektplanungstools erzwingen eine Wahl: strukturierte Boards wie Trello oder räumliche Canvases wie Miro. Teams, die beides brauchen, verteilen ihre Arbeit auf mehrere Tools und verlieren bei jedem Wechsel den Kontext.',
     approach:
-      'Aufbau eines Dual-Mode-Planungstools, bei dem jede Karte sowohl in Kanban- als auch Canvas-Ansicht existiert. Zustand mit Temporal-Middleware ermöglicht Undo/Redo. IndexedDB sichert Offline-Persistenz. Eigene SVG-Verbinder ermöglichen visuelle Abhängigkeits-Darstellung. Ausgeliefert als PWA für mobile Nutzung.',
+      'Aufbau eines Dual-Mode-Planers, bei dem jede Karte gleichzeitig in Kanban- und Canvas-Ansicht existiert. Die Kanban-Ansicht unterstützt Drag-and-Drop mit dnd-kit, während der Canvas Pan, Zoom und smarte Verbinder mit Auto-Routing bietet. Karten beinhalten Checklisten mit Fortschrittsanzeige, Fälligkeitsdaten mit Statusindikatoren, Kommentare, Zuweisungen, Farbkodierung und Prioritätsstufen. Zustand verwaltet den State mit 50-Schritt-Undo/Redo-Historie. Alle Daten werden lokal via IndexedDB gespeichert. Ausgeliefert als installierbare PWA.',
     outcome:
-      'Nahtloser Moduswechsel behält alle Kartendaten bei. Canvas unterstützt Pan, Zoom und Bezier-Verbinder. Volle Offline-Fähigkeit mit IndexedDB. Befehlspalette und Tastenkombinationen für Power-User.',
+      'Nahtloser Moduswechsel mit voller Datenkonsistenz. Umfangreiche Kartenverwaltung mit Checklisten, Kommentaren, Zuweisungen und Fälligkeiten. Canvas-Verbinder mit automatischer Ankerpunkt-Berechnung. Board-Archivierung, Befehlspalette und Tastenkombinationen für Power-User. Funktioniert komplett offline ohne Account.',
     links: {
       demo: '/apps/flowboard',
     },
     highlights: [
-      'Duale Kanban- + Canvas-Modi mit geteilten Daten',
-      'Eigene SVG-Connector-Engine mit Bezier-Pfaden',
-      'Offline-First mit IndexedDB + PWA',
-    ],
-  },
-  {
-    slug: 'analytics-dashboard',
-    title: 'Product Analytics Dashboard',
-    summary:
-      'Ein Echtzeit-Dashboard für Produktteams zur Überwachung von Kennzahlen, Feature-Adoption und Identifikation von User-Drop-off-Punkten im Funnel.',
-    status: 'wip',
-    role: 'Product Manager',
-    scope: 'Metriken-Definition, Stakeholder-Alignment, Prototyp und Frontend-Entwicklung.',
-    stack: ['React', 'D3.js', 'Python', 'BigQuery'],
-    problem:
-      'Produktteams verließen sich auf Ad-hoc SQL-Abfragen und Spreadsheets, was zu verzögerten Erkenntnissen und inkonsistentem Reporting führte.',
-    approach:
-      'Definition von Produkt-Kennzahlen (DAU, Retention, Feature-Adoption) mit Stakeholdern. Dashboard-Prototyp in Figma, Validierung mit PMs und Engineers, Frontend-Entwicklung mit React und D3.js, unterstützt durch BigQuery-Pipelines.',
-    outcome:
-      'Time-to-Insight von Tagen auf Sekunden reduziert. Standardisierte Metriken-Definitionen über 4 Produktteams. 60% mehr datengetriebene Entscheidungsfindung.',
-    links: {},
-    highlights: [
-      'Echtzeit-Datenpipeline',
-      'Individuelle D3.js-Visualisierungen',
-      'Teamübergreifende Metriken-Harmonisierung',
-    ],
-  },
-  {
-    slug: 'checkout-optimization',
-    title: 'Checkout-Flow Optimierung',
-    summary:
-      'Redesign eines mehrstufigen Checkout-Flows, der den Warenkorbabbruch um 23% reduzierte und die mobile Conversion Rate steigerte.',
-    status: 'wip',
-    role: 'Product Manager',
-    scope: 'User Research, Hypothesenerstellung, A/B-Test-Design, länderübergreifender Rollout.',
-    stack: ['A/B Testing', 'Figma', 'Hotjar', 'Google Analytics'],
-    problem:
-      'Der bestehende Checkout-Flow hatte eine Abbruchrate von 68% auf Mobile, mit den größten Drop-offs bei Adresseingabe und Zahlungsmittelauswahl.',
-    approach:
-      'User Research durchgeführt (Hotjar-Aufnahmen, Exit-Surveys), 5 Reibungspunkte identifiziert und 3 sequenzielle A/B-Tests über 8 Wochen durchgeführt. Auto-Fill, Fortschrittsanzeigen und eine Ein-Seiten-Checkout-Variante eingeführt.',
-    outcome:
-      '23% Reduktion des Warenkorbabbruchs. 18% Steigerung der mobilen Conversion Rate. Änderungen als neue Baseline über alle Märkte übernommen.',
-    links: {},
-    highlights: [
-      'Datengetriebene Hypothesenerstellung',
-      'Sequenzielle A/B-Testing-Strategie',
-      '23% Abbruchreduktion',
+      'Dualer Kanban + Canvas mit smartem Connector-Routing',
+      'Umfangreiche Karten: Checklisten, Fälligkeiten, Kommentare, Zuweisungen',
+      'Offline-First PWA mit 50-Schritt-Undo/Redo',
     ],
   },
 ];

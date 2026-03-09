@@ -5,17 +5,21 @@ import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export function Header() {
     const pathname = usePathname();
     const { t } = useLanguage();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [demosOpen, setDemosOpen] = useState(false);
+    const [mobileDemosOpen, setMobileDemosOpen] = useState(false);
     const [isEmbedded, setIsEmbedded] = useState(false);
+    const demosRef = useRef<HTMLDivElement>(null);
     const isStreamingFinder = pathname.startsWith('/apps/streaming-finder');
     const isBarMatch = pathname.startsWith('/apps/barmatch');
     const isFlowBoard = pathname.startsWith('/apps/flowboard');
     const isDarkApp = isStreamingFinder || isBarMatch || isFlowBoard;
+    const isDemoPage = isDarkApp;
 
     // Detect if running inside an iframe (phone mockup) or as installed PWA
     useEffect(() => {
@@ -26,16 +30,30 @@ export function Header() {
         );
     }, []);
 
+    // Close demos dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(e: MouseEvent) {
+            if (demosRef.current && !demosRef.current.contains(e.target as Node)) {
+                setDemosOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     if (isEmbedded) return null;
 
     const navLinks = [
         { href: '/', label: t.nav.home },
         { href: '/projects', label: t.nav.projects },
         { href: '/about', label: t.nav.about },
+        { href: '/contact', label: t.nav.contact },
+    ];
+
+    const demoLinks = [
         { href: '/apps/streaming-finder', label: t.nav.streamingFinder },
         { href: '/apps/barmatch', label: t.nav.barMatch },
         { href: '/apps/flowboard', label: t.nav.flowBoard },
-        { href: '/contact', label: t.nav.contact },
     ];
 
     return (
@@ -81,6 +99,62 @@ export function Header() {
                             </Link>
                         );
                     })}
+
+                    {/* Demos Dropdown */}
+                    <div className="relative" ref={demosRef}>
+                        <button
+                            onClick={() => setDemosOpen(!demosOpen)}
+                            className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium lowercase tracking-wide transition-all ${isDemoPage
+                                    ? isDarkApp
+                                        ? 'bg-white/10 text-white'
+                                        : 'bg-foreground text-background'
+                                    : isDarkApp
+                                        ? 'text-white/60 hover:text-white hover:bg-white/5'
+                                        : 'text-muted hover:text-foreground hover:bg-foreground/5'
+                                }`}
+                        >
+                            {t.nav.demos}
+                            <svg
+                                className={`h-3.5 w-3.5 transition-transform ${demosOpen ? 'rotate-180' : ''}`}
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        {demosOpen && (
+                            <div
+                                className={`absolute top-full left-0 mt-2 min-w-[180px] rounded-2xl border p-2 shadow-xl ${isDarkApp
+                                        ? 'border-white/10 bg-[#141414]'
+                                        : 'border-border bg-warm'
+                                    }`}
+                            >
+                                {demoLinks.map((link) => {
+                                    const isActive = pathname.startsWith(link.href);
+                                    return (
+                                        <Link
+                                            key={link.href}
+                                            href={link.href}
+                                            onClick={() => setDemosOpen(false)}
+                                            className={`block rounded-xl px-4 py-2.5 text-sm font-medium lowercase tracking-wide transition-all ${isActive
+                                                    ? isDarkApp
+                                                        ? 'bg-white/10 text-white'
+                                                        : 'bg-foreground text-background'
+                                                    : isDarkApp
+                                                        ? 'text-white/60 hover:text-white hover:bg-white/5'
+                                                        : 'text-muted hover:text-foreground hover:bg-foreground/5'
+                                                }`}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="ml-2 flex items-center gap-2">
                         <LanguageToggle />
                         <ThemeToggle />
@@ -142,6 +216,53 @@ export function Header() {
                             </Link>
                         );
                     })}
+
+                    {/* Mobile Demos Accordion */}
+                    <button
+                        onClick={() => setMobileDemosOpen(!mobileDemosOpen)}
+                        className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-base font-medium lowercase ${isDemoPage
+                                ? isDarkApp
+                                    ? 'bg-white/10 text-white'
+                                    : 'bg-foreground text-background'
+                                : isDarkApp
+                                    ? 'text-white/60 hover:text-white'
+                                    : 'text-muted hover:text-foreground'
+                            }`}
+                    >
+                        {t.nav.demos}
+                        <svg
+                            className={`h-4 w-4 transition-transform ${mobileDemosOpen ? 'rotate-180' : ''}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    {mobileDemosOpen && (
+                        <div className="ml-4 mt-1 space-y-1">
+                            {demoLinks.map((link) => {
+                                const isActive = pathname.startsWith(link.href);
+                                return (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={() => { setMenuOpen(false); setMobileDemosOpen(false); }}
+                                        className={`block rounded-2xl px-4 py-2.5 text-sm font-medium lowercase ${isActive
+                                                ? isDarkApp
+                                                    ? 'bg-white/10 text-white'
+                                                    : 'bg-foreground text-background'
+                                                : isDarkApp
+                                                    ? 'text-white/40 hover:text-white'
+                                                    : 'text-muted/70 hover:text-foreground'
+                                            }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    )}
                 </nav>
             )}
         </header>

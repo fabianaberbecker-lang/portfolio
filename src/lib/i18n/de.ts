@@ -10,6 +10,7 @@ export const content: SiteContent = {
     home: 'start',
     projects: 'projekte',
     about: 'über mich',
+    demos: 'demos',
     streamingFinder: 'streaming finder',
     barMatch: 'barmatch',
     flowBoard: 'flowboard',
