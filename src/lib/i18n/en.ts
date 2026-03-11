@@ -2,37 +2,38 @@ import type { SiteContent } from './types';
 
 export const content: SiteContent = {
   meta: {
-    siteTitle: 'Fabian Becker — Product Manager',
+    siteTitle: 'Fabian Becker',
     siteDescription:
-      'Product Manager portfolio showcasing digital product work, technical projects, and case studies.',
+  'Portfolio of digital product projects, prototypes, and small web apps.',
   },
   nav: {
-    home: 'home',
-    projects: 'projects',
-    about: 'about',
-    demos: 'demos',
-    streamingFinder: 'streaming finder',
-    barMatch: 'barmatch',
-    flowBoard: 'flowboard',
-    contact: 'contact',
-  },
+  home: 'Home',
+  projects: 'Projects',
+  about: 'About',
+  demos: 'Demos',
+  streamingFinder: 'Streaming Finder',
+  barMatch: 'BarMatch',
+  flowBoard: 'FlowBoard',
+  contact: 'Contact',
+},
   hero: {
-    name: 'Fabian Becker',
-    role: 'Product Manager',
-    email: 'becker.fabianpk@gmail.com',
-    tagline: 'building products that users love',
-    description:
-      'I can combine product thinking with technical curiosity to build and improve digital products. From user research to shipping features — hands-on and data-driven.',
-    viewProjects: 'view projects',
-    getInTouch: 'get in touch',
-    downloadCv: 'download cv',
-  },
-  about: {
-    title: 'about me',
-    intro: [
-      "I'm a product-minded person with hands-on experience building and improving digital tools. At eduki, I've been part of developing AI-powered features for educators — from gathering user feedback through qualitative interviews to iterating on the product based on real insights.",
-      'What drives me is the process of taking a product from idea to improvement: understanding users, organizing cross-functional work, and seeing the impact of well-structured collaboration. I bring a structured, independent work approach paired with a genuine curiosity for how technology can solve real problems.',
-    ],
+  name: 'Fabian Becker',
+  
+  email: 'becker.fabianpk@gmail.com',
+  tagline: 'from user insight to shipped features',
+  description:
+    'I work at the intersection of product, users, and technology. From user research to shipping features, I focus on understanding problems and turning them into practical improvements.',
+  viewProjects: 'explore projects',
+  getInTouch: 'get in touch',
+  downloadCv: 'download cv',
+},
+
+about: {
+  title: 'about me',
+  intro: [
+    "I'm a product-focused builder with experience improving digital tools. At eduki, I work on AI features for educators: talking to users, understanding their workflows, and helping translate those insights into product decisions.",
+    "What I enjoy most is the process of improving a product over time: understanding what users actually need, working closely with designers and engineers, and seeing ideas turn into features that make the product better.",
+  ],
     whatIDo: {
       title: 'what I do',
       items: [
@@ -60,25 +61,25 @@ export const content: SiteContent = {
           iconKey: 'chart',
           title: 'data-informed decisions',
           description:
-            'I combine quantitative signals with qualitative insights. Data frames the question; user empathy drives the answer.',
+            'I combine quantitative signals with qualitative insights. Data helps highlight patterns, but user understanding guides the decisions.',
         },
         {
           iconKey: 'rocket',
           title: 'ship & iterate',
           description:
-            'I believe in learning fast. Small, frequent releases beat big-bang launches — every time.',
+            'I like working on products over time: gathering feedback, making improvements, and gradually making things better for users.',
         },
         {
           iconKey: 'handshake',
           title: 'cross-functional teamwork',
           description:
-            'Great products emerge when different perspectives come together. I invest in open communication and shared understanding.',
+            'Good products come from close collaboration between product, design, and engineering. I invest in open communication and shared understanding.',
         },
         {
           iconKey: 'code',
           title: 'technical curiosity',
           description:
-            'I understand HTML/CSS, work with CMS tools, and am familiar with sprint workflows. This helps me collaborate more effectively with engineers.',
+            'I understand HTML/CSS, work with CMS tools, and am familiar with agile workflows. This helps me collaborate more effectively with engineers.',
         },
       ],
     },
@@ -86,24 +87,25 @@ export const content: SiteContent = {
       title: 'experience',
       timeline: [
         {
-          period: '02/2022 — present',
+          period: '02/2022 - present',
           role: 'Working Student (Werkstudent)',
           company: 'eduki (Lehrerkolleg LK GmbH)',
           description:
-            'AI-Tools: Contributing to development and iterative improvement based on user feedback (qualitative interviews & analysis). Growth Marketing & SEO: Website optimization (Builder.io), SEO collaboration, writing/optimizing website copy. Content & Copyright: Taxonomy assignment, copyright compliance checks.',
+            description:
+  'AI tools: supporting development and iteration based on user feedback (interviews and qualitative analysis). Growth marketing & SEO: website optimization with Builder.io, SEO collaboration, and writing/optimizing website copy. Content & copyright: taxonomy work and copyright compliance checks.',
           type: 'work',
         },
         {
-          period: '07/2020 — 04/2021',
+          period: '07/2020 - 04/2021',
           role: 'Retail Sales',
           company: 'Detlev Louis (Motorcycle Retail)',
           description: 'Customer-facing retail experience in a specialized retail environment.',
           type: 'work',
         },
         {
-          period: '12/2019 — 06/2020',
+          period: '12/2019 - 06/2020',
           role: 'Voluntary Social Year (FSJ)',
-          company: 'AWO — Sheltered Workshops Berlin',
+          company: 'AWO Sheltered Workshops Berlin',
           description:
             'Social engagement working with people with disabilities, developing empathy and organizational skills.',
           type: 'work',
@@ -117,14 +119,14 @@ export const content: SiteContent = {
           type: 'education',
         },
         {
-          period: '10/2018 — 09/2019',
+          period: '10/2018 - 09/2019',
           role: 'B.A. Business Informatics',
           company: 'Technical University Berlin',
           description: 'First exposure to computer science and business fundamentals.',
           type: 'education',
         },
         {
-          period: '2012 — 2018',
+          period: '2012 - 2018',
           role: 'Abitur & Baccalauréat',
           company: 'Romain-Rolland-Gymnasium Berlin',
           description:
@@ -159,7 +161,16 @@ export const content: SiteContent = {
         },
         {
           category: 'tools & media',
-          items: ['MS Office', 'Affinity Photo', 'DaVinci Resolve', 'Google Forms', 'Presentation Design'],
+          items: [
+  'Figma',
+  'Notion',
+  'Jira',
+  'MS Office',
+  'Google Forms',
+  'Affinity Photo',
+  'DaVinci Resolve',
+  'Presentation Design'
+],
           colorClass: 'bg-pop-green',
         },
       ],
@@ -168,7 +179,7 @@ export const content: SiteContent = {
   projects: {
     title: 'projects',
     subtitle:
-      'a collection of product work, technical projects, and case studies. each includes the problem, approach, and measurable outcome.',
+      'a collection of product work, technical projects, and case studies.',
     selectedWork: 'selected work',
     caseStudies: 'case studies & shipped products',
     viewAll: 'view all →',

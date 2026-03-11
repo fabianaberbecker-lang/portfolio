@@ -2,173 +2,202 @@ import type { SiteContent } from './types';
 
 export const content: SiteContent = {
   meta: {
-    siteTitle: 'Fabian Becker — Product Manager',
-    siteDescription:
-      'Product Manager Portfolio mit digitalen Produktprojekten, technischen Projekten und Case Studies.',
-  },
-  nav: {
-    home: 'start',
-    projects: 'projekte',
-    about: 'über mich',
-    demos: 'demos',
-    streamingFinder: 'streaming finder',
-    barMatch: 'barmatch',
-    flowBoard: 'flowboard',
-    contact: 'kontakt',
-  },
-  hero: {
-    name: 'Fabian Becker',
-    role: 'Product Manager',
-    email: 'becker.fabianpk@gmail.com',
-    tagline: 'digitale produkte, die nutzer lieben',
-    description:
-      'Ich verbinde Produktdenken mit technischer Neugier, um digitale Produkte zu bauen und zu verbessern. Von User Research bis zum Feature-Release — hands-on und datengetrieben.',
-    viewProjects: 'projekte ansehen',
-    getInTouch: 'kontakt aufnehmen',
-    downloadCv: 'lebenslauf laden',
-  },
-  about: {
-    title: 'über mich',
-    intro: [
-      'Ich bin ein produktgetriebener Mensch mit praktischer Erfahrung im Aufbau und der Verbesserung digitaler Tools. Bei eduki habe ich an der Entwicklung KI-gestützter Features für Lehrkräfte mitgearbeitet — von der Erhebung von Nutzerfeedback durch qualitative Interviews bis zur iterativen Verbesserung des Produkts basierend auf echten Erkenntnissen.',
-      'Was mich antreibt, ist der Prozess, ein Produkt von der Idee zur Verbesserung zu begleiten: Nutzer verstehen, crossfunktionale Arbeit organisieren und den Impact guter Zusammenarbeit zu sehen. Ich bringe eine strukturierte, eigenständige Arbeitsweise mit und eine echte Neugier dafür, wie Technologie reale Probleme lösen kann.',
+  siteTitle: 'Fabian Becker',
+  siteDescription:
+    'Portfolio mit digitalen Produktprojekten, Prototypen und kleinen Web-Apps.',
+},
+
+nav: {
+  home: 'Start',
+  projects: 'Projekte',
+  about: 'Über mich',
+  demos: 'Demos',
+  streamingFinder: 'Streaming Finder',
+  barMatch: 'BarMatch',
+  flowBoard: 'FlowBoard',
+  contact: 'Kontakt',
+},
+
+hero: {
+  name: 'Fabian Becker',
+  
+  email: 'becker.fabianpk@gmail.com',
+  tagline: 'von user insight zu umgesetzten features',
+  description:
+    'Ich arbeite an der Schnittstelle von Produkt, Nutzern und Technologie. Von User Research bis zum Feature-Release konzentriere ich mich darauf, Probleme zu verstehen und in praktische Verbesserungen zu übersetzen.',
+  viewProjects: 'Projekte entdecken',
+  getInTouch: 'Kontakt aufnehmen',
+  downloadCv: 'Lebenslauf herunterladen',
+},
+
+about: {
+  title: 'über mich',
+  intro: [
+    'Ich arbeite produktnah und habe Erfahrung darin, digitale Tools zu verbessern. Bei eduki arbeite ich an KI-Features für Lehrkräfte — spreche mit Nutzern, verstehe ihre Arbeitsabläufe und helfe dabei, diese Erkenntnisse in Produktentscheidungen zu übersetzen.',
+    'Am meisten gefällt mir der Prozess, ein Produkt über Zeit zu verbessern: zu verstehen, was Nutzer wirklich brauchen, eng mit Design und Engineering zusammenzuarbeiten und zu sehen, wie Ideen zu konkreten Features werden.',
+  ],
+
+  whatIDo: {
+    title: 'was ich mache',
+    items: [
+      {
+        title: 'Produktentwicklung',
+        description:
+          'Mitarbeit an der Entwicklung und Verbesserung digitaler Tools, einschließlich KI-gestützter Features für Lehrkräfte.',
+      },
+      {
+        title: 'User Research',
+        description:
+          'Durchführung von Interviews, Umfragen und Feedbackanalysen, um Nutzerbedürfnisse zu verstehen und Produktverbesserungen abzuleiten.',
+      },
+      {
+        title: 'Growth & SEO',
+        description:
+          'Optimierung von Website-Struktur und Inhalten sowie Zusammenarbeit bei SEO-Themen, um organisches Wachstum zu unterstützen.',
+      },
     ],
-    whatIDo: {
-      title: 'was ich mache',
-      items: [
-        {
-          title: 'Digitale Produktentwicklung',
-          description:
-            'Mitwirkung an der Entwicklung und iterativen Verbesserung digitaler Tools, einschließlich KI-gestützter Features für Lehrkräfte.',
-        },
-        {
-          title: 'User Research & Feedback',
-          description:
-            'Durchführung qualitativer Interviews, Umfragen und Feedbackanalysen, um Nutzererkenntnisse in umsetzbare Verbesserungen zu übersetzen.',
-        },
-        {
-          title: 'Growth Marketing & SEO',
-          description:
-            'Website-Optimierung, Content-Erstellung und SEO-Zusammenarbeit zur Steigerung des organischen Wachstums.',
-        },
-      ],
-    },
-    howIWork: {
-      title: 'wie ich arbeite',
-      principles: [
-        {
-          iconKey: 'chart',
-          title: 'datenbasierte entscheidungen',
-          description:
-            'Ich kombiniere quantitative Signale mit qualitativen Erkenntnissen. Daten stellen die Frage; Nutzerempathie liefert die Antwort.',
-        },
-        {
-          iconKey: 'rocket',
-          title: 'shippen & iterieren',
-          description:
-            'Ich glaube an schnelles Lernen. Kleine, häufige Releases schlagen große Launches — immer.',
-        },
-        {
-          iconKey: 'handshake',
-          title: 'crossfunktionale teamarbeit',
-          description:
-            'Gute Produkte entstehen, wenn verschiedene Perspektiven zusammenkommen. Ich investiere in offene Kommunikation und gemeinsames Verständnis.',
-        },
-        {
-          iconKey: 'code',
-          title: 'technische neugier',
-          description:
-            'Ich verstehe HTML/CSS, arbeite mit CMS-Tools und kenne Sprint-Workflows. Das hilft mir, effektiver mit Entwicklern zusammenzuarbeiten.',
-        },
-      ],
-    },
-    experience: {
-      title: 'erfahrung',
-      timeline: [
-        {
-          period: '02/2022 — heute',
-          role: 'Werkstudent',
-          company: 'eduki (Lehrerkolleg LK GmbH)',
-          description:
-            'AI-Tools: Mitarbeit an Entwicklung und iterativer Verbesserung anhand von Nutzerfeedback (qualitative Interviews & Auswertung). Growth Marketing & SEO: Website-Optimierung (Builder.io), SEO-Zusammenarbeit, Schreiben/Optimieren von Website-Texten. Content & Copyright: Taxonomie-Zuordnung, Prüfung potenzieller Urheberrechtsverletzungen.',
-          type: 'work',
-        },
-        {
-          period: '07/2020 — 04/2021',
-          role: 'Verkäufer im Einzelhandel',
-          company: 'Detlev Louis (Motorradfachgeschäft)',
-          description: 'Kundenberatung und Verkauf im spezialisierten Einzelhandel.',
-          type: 'work',
-        },
-        {
-          period: '12/2019 — 06/2020',
-          role: 'Freiwilliges Soziales Jahr (FSJ)',
-          company: 'AWO — Behindertenwerkstätten Berlin',
-          description:
-            'Soziales Engagement in der Arbeit mit Menschen mit Behinderungen, Entwicklung von Empathie und organisatorischen Fähigkeiten.',
-          type: 'work',
-        },
-        {
-          period: '10/2020 — 03/2026',
-          role: 'Kombi-B.A. Germanistik & Geschichte',
-          company: 'Universität Potsdam',
-          description:
-            'Kombinationsbachelor Germanistik (Erstfach) & Geschichte (Zweitfach). Entwicklung einer strukturierten, eigenständigen Arbeitsweise und der Fähigkeit, komplexe Inhalte schnell zu verstehen und verständlich aufzubereiten.',
-          type: 'education',
-        },
-        {
-          period: '10/2018 — 09/2019',
-          role: 'Mono-B.A. Wirtschaftsinformatik',
-          company: 'Technische Universität Berlin',
-          description: 'Erster Kontakt mit Informatik und betriebswirtschaftlichen Grundlagen.',
-          type: 'education',
-        },
-        {
-          period: '2012 — 2018',
-          role: 'Abitur & Baccalauréat',
-          company: 'Romain-Rolland-Gymnasium Berlin',
-          description:
-            'Deutsches Abitur und französisches Baccalauréat (Doppeldiplom). Grundlage in französischer Sprache und interkultureller Bildung.',
-          type: 'education',
-        },
-      ],
-    },
-    toolbox: {
-      title: 'toolbox',
-      categories: [
-        {
-          category: 'produkt',
-          items: [
-            'User Research',
-            'Qualitative Interviews',
-            'Umfragen & Feedbackanalyse',
-            'Sprint-Workflows',
-            'Ticket-Management',
-          ],
-          colorClass: 'bg-pop-purple',
-        },
-        {
-          category: 'technisch',
-          items: ['HTML & CSS', 'Builder.io / CMS', 'SEO-Optimierung', 'AI Tools', 'Web Analytics'],
-          colorClass: 'bg-pop-red',
-        },
-        {
-          category: 'analytics',
-          items: ['Google Analytics', 'Looker Studio', 'Datenanalyse', 'Reporting & Dashboards'],
-          colorClass: 'bg-pop-yellow',
-        },
-        {
-          category: 'tools & medien',
-          items: ['MS Office', 'Affinity Photo', 'DaVinci Resolve', 'Google Forms', 'Präsentationsdesign'],
-          colorClass: 'bg-pop-green',
-        },
-      ],
+  },
+
+  howIWork: {
+    title: 'wie ich arbeite',
+    principles: [
+      {
+        iconKey: 'chart',
+        title: 'dateninformierte entscheidungen',
+        description:
+          'Ich kombiniere quantitative Signale mit qualitativen Erkenntnissen. Daten helfen dabei, Muster zu erkennen, aber das Verständnis der Nutzer leitet die Entscheidungen.',
+      },
+      {
+        iconKey: 'rocket',
+        title: 'shippen & iterieren',
+        description:
+          'Ich arbeite gerne über längere Zeit an Produkten: Feedback sammeln, Verbesserungen umsetzen und Dinge Schritt für Schritt besser machen.',
+      },
+      {
+        iconKey: 'handshake',
+        title: 'cross-funktionale zusammenarbeit',
+        description:
+          'Gute Produkte entstehen durch enge Zusammenarbeit zwischen Produkt, Design und Engineering. Offene Kommunikation und gemeinsames Verständnis sind dabei entscheidend.',
+      },
+      {
+        iconKey: 'code',
+        title: 'technische neugier',
+        description:
+          'Ich verstehe HTML/CSS, arbeite mit CMS-Systemen und kenne agile Workflows. Das hilft mir, effektiver mit Entwicklerteams zusammenzuarbeiten.',
+      },
+    ],
+  },
+
+  experience: {
+    title: 'erfahrung',
+    timeline: [
+      {
+        period: '02/2022 - heute',
+        role: 'Werkstudent',
+        company: 'eduki (Lehrerkolleg LK GmbH)',
+        description:
+          'AI-Tools: Unterstützung bei Entwicklung und Iteration auf Basis von Nutzerfeedback (Interviews und qualitative Analyse). Growth Marketing & SEO: Website-Optimierung mit Builder.io, SEO-Zusammenarbeit sowie Schreiben und Optimieren von Website-Texten. Content & Copyright: Taxonomie-Arbeit und Prüfung von urheberrechtlichen Fragen.',
+        type: 'work',
+      },
+      {
+        period: '07/2020 . 04/2021',
+        role: 'Verkäufer im Einzelhandel',
+        company: 'Detlev Louis (Motorradfachgeschäft)',
+        description:
+          'Kundenberatung und Verkauf im spezialisierten Einzelhandel.',
+        type: 'work',
+      },
+      {
+        period: '12/2019 - 06/2020',
+        role: 'Freiwilliges Soziales Jahr (FSJ)',
+        company: 'AWO — Behindertenwerkstätten Berlin',
+        description:
+          'Soziale Arbeit mit Menschen mit Behinderungen, Entwicklung von Empathie und organisatorischen Fähigkeiten.',
+        type: 'work',
+      },
+      {
+        period: '10/2020 - 03/2026',
+        role: 'B.A. Germanistik & Geschichte',
+        company: 'Universität Potsdam',
+        description:
+          'Kombinationsbachelor Germanistik (Hauptfach) und Geschichte (Nebenfach). Entwicklung einer strukturierten Arbeitsweise sowie der Fähigkeit, komplexe Inhalte schnell zu verstehen und verständlich darzustellen.',
+        type: 'education',
+      },
+      {
+        period: '10/2018 - 09/2019',
+        role: 'B.A. Wirtschaftsinformatik',
+        company: 'Technische Universität Berlin',
+        description:
+          'Erste Einblicke in Informatik und betriebswirtschaftliche Grundlagen.',
+        type: 'education',
+      },
+      {
+        period: '2012 - 2018',
+        role: 'Abitur & Baccalauréat',
+        company: 'Romain-Rolland-Gymnasium Berlin',
+        description:
+          'Deutsches Abitur und französisches Baccalauréat (Doppeldiplom). Grundlage in französischer Sprache und interkultureller Bildung.',
+        type: 'education',
+      },
+    ],
+  },
+
+  toolbox: {
+    title: 'toolbox',
+    categories: [
+      {
+        category: 'produkt',
+        items: [
+          'User Research',
+          'Qualitative Interviews',
+          'Umfragen & Feedbackanalyse',
+          'Sprint-Workflows',
+          'Ticket-Management',
+        ],
+        colorClass: 'bg-pop-purple',
+      },
+      {
+        category: 'technisch',
+        items: [
+          'HTML & CSS',
+          'Builder.io / CMS',
+          'SEO-Optimierung',
+          'AI Tools',
+          'Web Analytics',
+        ],
+        colorClass: 'bg-pop-red',
+      },
+      {
+        category: 'analytics',
+        items: [
+          'Google Analytics',
+          'Looker Studio',
+          'Datenanalyse',
+          'Reporting & Dashboards',
+        ],
+        colorClass: 'bg-pop-yellow',
+      },
+      {
+        category: 'tools & medien',
+        items: [
+          'Figma',
+          'Notion',
+          'Jira',
+          'MS Office',
+          'Google Forms',
+          'Affinity Photo',
+          'DaVinci Resolve',
+          'Präsentationsdesign',
+        ],
+        colorClass: 'bg-pop-green',
+      },
+    ],
     },
   },
   projects: {
     title: 'projekte',
     subtitle:
-      'eine Sammlung von Produktarbeit, technischen Projekten und Case Studies. Jeweils mit Problem, Ansatz und messbarem Ergebnis.',
+      'eine Sammlung von Produktarbeit, technischen Projekten und Case Studies.',
     selectedWork: 'ausgewählte arbeiten',
     caseStudies: 'case studies & fertige produkte',
     viewAll: 'alle ansehen →',
