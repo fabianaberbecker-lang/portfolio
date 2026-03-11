@@ -20,7 +20,7 @@ nav: {
 
 hero: {
   name: 'Fabian Becker',
-  
+  role: 'Produktorientierter Entwickler',
   email: 'becker.fabianpk@gmail.com',
   tagline: 'von user insight zu umgesetzten features',
   description:

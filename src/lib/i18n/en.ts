@@ -18,7 +18,7 @@ export const content: SiteContent = {
 },
   hero: {
   name: 'Fabian Becker',
-  
+  role: 'Product-Minded Developer',
   email: 'becker.fabianpk@gmail.com',
   tagline: 'from user insight to shipped features',
   description:
@@ -91,7 +91,6 @@ about: {
           role: 'Working Student (Werkstudent)',
           company: 'eduki (Lehrerkolleg LK GmbH)',
           description:
-            description:
   'AI tools: supporting development and iteration based on user feedback (interviews and qualitative analysis). Growth marketing & SEO: website optimization with Builder.io, SEO collaboration, and writing/optimizing website copy. Content & copyright: taxonomy work and copyright compliance checks.',
           type: 'work',
         },
