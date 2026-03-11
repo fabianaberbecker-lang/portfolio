@@ -20,25 +20,25 @@ nav: {
 
 hero: {
   name: 'Fabian Becker',
-  role: 'Produktorientierter Entwickler',
   email: 'becker.fabianpk@gmail.com',
-  tagline: 'von user insight zu umgesetzten features',
+  tagline: 'von User Insight zu umgesetzten Features',
   description:
     'Ich arbeite an der Schnittstelle von Produkt, Nutzern und Technologie. Von User Research bis zum Feature-Release konzentriere ich mich darauf, Probleme zu verstehen und in praktische Verbesserungen zu übersetzen.',
   viewProjects: 'Projekte entdecken',
   getInTouch: 'Kontakt aufnehmen',
   downloadCv: 'Lebenslauf herunterladen',
+
 },
 
 about: {
-  title: 'über mich',
+  title: 'Über mich',
   intro: [
     'Ich arbeite produktnah und habe Erfahrung darin, digitale Tools zu verbessern. Bei eduki arbeite ich an KI-Features für Lehrkräfte — spreche mit Nutzern, verstehe ihre Arbeitsabläufe und helfe dabei, diese Erkenntnisse in Produktentscheidungen zu übersetzen.',
     'Am meisten gefällt mir der Prozess, ein Produkt über Zeit zu verbessern: zu verstehen, was Nutzer wirklich brauchen, eng mit Design und Engineering zusammenzuarbeiten und zu sehen, wie Ideen zu konkreten Features werden.',
   ],
 
   whatIDo: {
-    title: 'was ich mache',
+    title: 'Was ich mache',
     items: [
       {
         title: 'Produktentwicklung',
@@ -59,29 +59,29 @@ about: {
   },
 
   howIWork: {
-    title: 'wie ich arbeite',
+    title: 'Wie ich arbeite',
     principles: [
       {
         iconKey: 'chart',
-        title: 'dateninformierte entscheidungen',
+        title: 'Dateninformierte Entscheidungen',
         description:
           'Ich kombiniere quantitative Signale mit qualitativen Erkenntnissen. Daten helfen dabei, Muster zu erkennen, aber das Verständnis der Nutzer leitet die Entscheidungen.',
       },
       {
         iconKey: 'rocket',
-        title: 'shippen & iterieren',
+        title: 'Shippen & Iterieren',
         description:
           'Ich arbeite gerne über längere Zeit an Produkten: Feedback sammeln, Verbesserungen umsetzen und Dinge Schritt für Schritt besser machen.',
       },
       {
         iconKey: 'handshake',
-        title: 'cross-funktionale zusammenarbeit',
+        title: 'Cross-funktionale Zusammenarbeit',
         description:
           'Gute Produkte entstehen durch enge Zusammenarbeit zwischen Produkt, Design und Engineering. Offene Kommunikation und gemeinsames Verständnis sind dabei entscheidend.',
       },
       {
         iconKey: 'code',
-        title: 'technische neugier',
+        title: 'Technische Neugier',
         description:
           'Ich verstehe HTML/CSS, arbeite mit CMS-Systemen und kenne agile Workflows. Das hilft mir, effektiver mit Entwicklerteams zusammenzuarbeiten.',
       },
@@ -89,7 +89,7 @@ about: {
   },
 
   experience: {
-    title: 'erfahrung',
+    title: 'Erfahrung',
     timeline: [
       {
         period: '02/2022 - heute',
@@ -143,10 +143,10 @@ about: {
   },
 
   toolbox: {
-    title: 'toolbox',
+    title: 'Toolbox',
     categories: [
       {
-        category: 'produkt',
+        category: 'Produkt',
         items: [
           'User Research',
           'Qualitative Interviews',
@@ -157,7 +157,7 @@ about: {
         colorClass: 'bg-pop-purple',
       },
       {
-        category: 'technisch',
+        category: 'Technisch',
         items: [
           'HTML & CSS',
           'Builder.io / CMS',
@@ -168,7 +168,7 @@ about: {
         colorClass: 'bg-pop-red',
       },
       {
-        category: 'analytics',
+        category: 'Analytics',
         items: [
           'Google Analytics',
           'Looker Studio',
@@ -178,7 +178,7 @@ about: {
         colorClass: 'bg-pop-yellow',
       },
       {
-        category: 'tools & medien',
+        category: 'Tools & Medien',
         items: [
           'Figma',
           'Notion',
@@ -195,66 +195,66 @@ about: {
     },
   },
   projects: {
-    title: 'projekte',
+    title: 'Projekte',
     subtitle:
-      'eine Sammlung von Produktarbeit, technischen Projekten und Case Studies.',
-    selectedWork: 'ausgewählte arbeiten',
-    caseStudies: 'case studies & fertige produkte',
-    viewAll: 'alle ansehen →',
-    viewAllProjects: 'alle projekte ansehen',
-    backToProjects: '← zurück zu projekten',
-    viewLiveDemo: 'live-demo ansehen',
-    viewRepository: 'repository ansehen',
-    statusShipped: 'fertig',
-    statusWip: 'in arbeit',
-    sectionProblem: 'das problem',
-    sectionRole: 'rolle & umfang',
-    sectionApproach: 'ansatz',
-    sectionOutcome: 'ergebnis',
-    sectionHighlights: 'highlights',
+      'Eine Sammlung von Produktarbeit, technischen Projekten und Case Studies.',
+    selectedWork: 'Ausgewählte Arbeiten',
+    caseStudies: 'Case Studies & fertige Produkte',
+    viewAll: 'Alle ansehen →',
+    viewAllProjects: 'Alle Projekte ansehen',
+    backToProjects: '← Zurück zu Projekten',
+    viewLiveDemo: 'Live-Demo ansehen',
+    viewRepository: 'Repository ansehen',
+    statusShipped: 'Fertig',
+    statusWip: 'In Arbeit',
+    sectionProblem: 'Das Problem',
+    sectionRole: 'Rolle & Umfang',
+    sectionApproach: 'Ansatz',
+    sectionOutcome: 'Ergebnis',
+    sectionHighlights: 'Highlights',
   },
   contact: {
-    title: 'kontakt aufnehmen',
+    title: 'Kontakt aufnehmen',
     subtitle:
-      'ich freue mich immer über neue Kontakte. Ob Frage, Projektidee oder einfach nur Hallo sagen.',
-    preferForm: 'lieber ein Formular?',
+      'Ich freue mich immer über neue Kontakte. Ob Frage, Projektidee oder einfach nur Hallo sagen.',
+    preferForm: 'Lieber ein Formular?',
     formComingSoon:
-      'ein Kontaktformular kommt bald. In der Zwischenzeit gerne per E-Mail oder LinkedIn melden.',
-    sendEmail: 'e-mail senden',
-    emailLabel: 'e-mail',
-    linkedinLabel: 'linkedin',
-    githubLabel: 'github',
+      'Ein Kontaktformular kommt bald. In der Zwischenzeit gerne per E-Mail oder LinkedIn melden.',
+    sendEmail: 'E-Mail senden',
+    emailLabel: 'E-Mail',
+    linkedinLabel: 'LinkedIn',
+    githubLabel: 'GitHub',
   },
   streamingFinder: {
     landing: {
-      badge: 'streaming finder',
+      badge: 'Streaming Finder',
       title: 'wo du ',
       titleHighlight: 'alles',
       description:
         'Suche nach einem Film oder einer Serie und sieh sofort, wo du streamen, leihen oder kaufen kannst — alles an einem Ort.',
-      cta: 'suche starten →',
+      cta: 'Suche starten →',
       features: [
         {
           iconKey: 'search',
-          title: 'sofortsuche',
+          title: 'Sofortsuche',
           description:
             'Tippe einen Titel ein und erhalte Ergebnisse während du tippst. Optimiert für flüssige Performance.',
         },
         {
           iconKey: 'play',
-          title: 'streamen · leihen · kaufen',
+          title: 'Streamen · Leihen · Kaufen',
           description:
             'Verfügbarkeit aufgeschlüsselt nach Abo, Leihoptionen und Kaufmöglichkeiten.',
         },
         {
           iconKey: 'globe',
-          title: 'multi-region',
+          title: 'Multi-Region',
           description:
             'Verfügbarkeit in Deutschland, USA, UK, Frankreich und mehr — über 40 Länder.',
         },
         {
           iconKey: 'camera',
-          title: 'anbieter-logos',
+          title: 'Anbieter-Logos',
           description:
             'Netflix, Disney+, Amazon und 300+ weitere Anbieter sofort erkennen.',
         },
@@ -263,72 +263,72 @@ about: {
         'Streaming-Daten bereitgestellt von TMDB. Alle Informationen dienen nur zu Informationszwecken.',
     },
     search: {
-      title: 'filme & serien suchen',
+      title: 'Filme & Serien suchen',
       placeholder: 'Nach einem Film oder einer Serie suchen...',
       backLink: '← streaming finder',
-      noResults: 'keine ergebnisse',
-      noResultsHint: 'versuche einen anderen Suchbegriff.',
-      initialTitle: 'finde wo du schauen kannst',
+      noResults: 'Keine Ergebnisse',
+      noResultsHint: 'Versuche einen anderen Suchbegriff.',
+      initialTitle: 'Finde wo du schauen kannst',
       initialDescription:
-        'suche nach einem Film oder einer Serie, um die Streaming-Verfügbarkeit zu sehen.',
-      trendingMovies: 'trend-filme',
-      trendingShows: 'trend-serien',
-      retry: 'erneut versuchen',
+        'Suche nach einem Film oder einer Serie, um die Streaming-Verfügbarkeit zu sehen.',
+      trendingMovies: 'Trend-Filme',
+      trendingShows: 'Trend-Serien',
+      retry: 'Erneut versuchen',
       errorMessage: 'Etwas ist schiefgelaufen. Bitte versuche es erneut.',
     },
     detail: {
-      backToSearch: '← zurück zur suche',
-      streamingAvailability: 'streaming-verfügbarkeit',
-      streaming: 'streaming',
-      rent: 'leihen',
-      buy: 'kaufen',
+      backToSearch: '← Zurück zur Suche',
+      streamingAvailability: 'Streaming-Verfügbarkeit',
+      streaming: 'Streaming',
+      rent: 'Leihen',
+      buy: 'Kaufen',
       noProviders:
         'keine Anbieter in dieser Kategorie für die gewählte Region verfügbar.',
-      viewOnTmdb: 'auf justwatch/tmdb ansehen →',
-      movie: 'film',
-      tvShow: 'serie',
-      couldNotLoad: 'titel konnte nicht geladen werden',
+      viewOnTmdb: 'Auf JustWatch/TMDB ansehen →',
+      movie: 'Film',
+      tvShow: 'Serie',
+      couldNotLoad: 'Titel konnte nicht geladen werden',
       episodes: 'Folgen',
       min: 'Min.',
       availableOnYours: 'auf deinen Diensten verfügbar',
       alsoAvailableOn: 'auch verfügbar auf',
       notOnYourServices: 'nicht in deinen Abos',
-      setupServices: 'richte deine Dienste ein für personalisierte Ergebnisse',
-      notifyMe: 'benachrichtigen',
-      alertActive: 'alarm aktiv',
-      nowAvailable: 'jetzt verfügbar!',
-      removeAlert: 'alarm entfernen',
-      needServices: 'richte zuerst deine Dienste ein',
-      pushDenied: 'aktiviere Benachrichtigungen im Browser für Alarme',
-      alertCreated: 'alarm erstellt — wir benachrichtigen dich',
-      alertRemoved: 'alarm entfernt',
-      bestOptionTitle: 'beste Option zum Schauen',
-      bestRental: 'beste Option zum Leihen',
-      bestPurchase: 'beste Option zum Kaufen',
-      comparePrices: 'alle Preise vergleichen →',
-      orSetAlert: 'oder Alarm für Streaming setzen',
+      setupServices: 'Richte deine Dienste ein für personalisierte Ergebnisse',
+      notifyMe: 'Benachrichtigen',
+      alertActive: 'Alarm aktiv',
+      nowAvailable: 'Jetzt verfügbar!',
+      removeAlert: 'Alarm entfernen',
+      needServices: 'Richte zuerst deine Dienste ein',
+      pushDenied: 'Aktiviere Benachrichtigungen im Browser für Alarme',
+      alertCreated: 'Alarm erstellt — wir benachrichtigen dich',
+      alertRemoved: 'Alarm entfernt',
+      bestOptionTitle: 'Beste Option zum Schauen',
+      bestRental: 'Beste Option zum Leihen',
+      bestPurchase: 'Beste Option zum Kaufen',
+      comparePrices: 'Alle Preise vergleichen →',
+      orSetAlert: 'Oder Alarm für Streaming setzen',
       priceUnknown: 'Preis unbekannt',
     },
     services: {
-      title: 'meine dienste',
-      subtitle: 'wähle die Streaming-Dienste, die du abonniert hast',
+      title: 'Meine Dienste',
+      subtitle: 'Wähle die Streaming-Dienste, die du abonniert hast',
       selectRegion: 'Region',
       searchPlaceholder: 'Anbieter suchen...',
-      noProviders: 'keine Anbieter für diese Region gefunden.',
-      selected: 'ausgewählt',
-      done: 'fertig',
-      clearAll: 'alle entfernen',
+      noProviders: 'Keine Anbieter für diese Region gefunden.',
+      selected: 'Ausgewählt',
+      done: 'Fertig',
+      clearAll: 'Alle entfernen',
     },
     alerts: {
-      title: 'meine alarme',
-      subtitle: 'werde benachrichtigt, wenn Titel verfügbar werden',
-      noAlerts: 'noch keine Alarme. Erstelle einen auf einer Titel-Detailseite.',
-      active: 'aktiv',
-      matched: 'verfügbar!',
-      deleteConfirm: 'diesen Alarm entfernen?',
+      title: 'Meine Alarme',
+      subtitle: 'Werde benachrichtigt, wenn Titel verfügbar werden',
+      noAlerts: 'Noch keine Alarme. Erstelle einen auf einer Titel-Detailseite.',
+      active: 'Aktiv',
+      matched: 'Verfügbar!',
+      deleteConfirm: 'Diesen Alarm entfernen?',
     },
     showcase: {
-      title: 'streaming finder',
+      title: 'Streaming Finder',
       description:
         'Ein Tool, das ich gebaut habe, um mein eigenes Problem zu lösen: Herauszufinden, wo man Filme und Serien auf verschiedenen Plattformen schauen kann. Suche einen Titel und sieh sofort die Verfügbarkeit in über 40 Ländern.',
       valueProps: [
@@ -348,13 +348,13 @@ about: {
           description: 'Alle Optionen in einer Ansicht — kein App-Wechsel mehr.',
         },
       ],
-      cta: 'ausprobieren →',
-      tryDemo: 'app öffnen',
+      cta: 'Ausprobieren →',
+      tryDemo: 'App öffnen',
     },
   },
   barMatch: {
     showcase: {
-      title: 'barmatch',
+      title: 'BarMatch',
       description:
         'Eine Gruppen-Entscheidungs-App, um die richtige Bar zu finden. Session erstellen, Freunde einladen, durch Bars swipen und gemeinsam matchen.',
       valueProps: [
@@ -374,13 +374,13 @@ about: {
           description: 'Live-Daten von OpenStreetMap mit Standorten und \u00d6ffnungszeiten.',
         },
       ],
-      cta: 'ausprobieren \u2192',
-      tryDemo: 'app \u00f6ffnen',
+      cta: 'Ausprobieren \u2192',
+      tryDemo: 'App \u00f6ffnen',
     },
   },
   flowBoard: {
     showcase: {
-      title: 'flowboard',
+      title: 'FlowBoard',
       description:
         'Ein hybrides Planungstool, das Kanban-Spalten mit einem Freeform-Canvas kombiniert. Karten zwischen Modi verschieben, Ideen visuell verbinden und komplett offline arbeiten.',
       valueProps: [
@@ -400,16 +400,16 @@ about: {
           description: 'Alle Daten lokal via IndexedDB gespeichert. Kein Account n\u00f6tig.',
         },
       ],
-      cta: 'ausprobieren \u2192',
-      tryDemo: 'app \u00f6ffnen',
+      cta: 'Ausprobieren \u2192',
+      tryDemo: 'App \u00f6ffnen',
     },
   },
   cta: {
-    title: 'lass uns zusammenarbeiten',
+    title: 'Lass uns zusammenarbeiten',
     description:
       'Ich bin immer offen für neue Möglichkeiten, interessante Projekte oder einfach einen Austausch über Produkt & Tech.',
-    contactMe: 'kontakt',
-    linkedin: 'linkedin',
+    contactMe: 'Kontakt',
+    linkedin: 'LinkedIn',
   },
   footer: {
     copyright: `© ${new Date().getFullYear()} Fabian Becker. Alle Rechte vorbehalten.`,

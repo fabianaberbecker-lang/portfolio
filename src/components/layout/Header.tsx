@@ -86,13 +86,13 @@ export function Header() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`rounded-full px-4 py-2 text-sm font-medium lowercase tracking-wide transition-all ${isActive
+                                className={`relative rounded-full px-4 py-2 text-sm font-medium lowercase tracking-wide transition-all after:absolute after:bottom-0.5 after:left-1/2 after:h-0.5 after:-translate-x-1/2 after:rounded-full after:transition-all after:duration-200 ${isActive
                                         ? isDarkApp
-                                            ? 'bg-white/10 text-white'
-                                            : 'bg-foreground text-background'
+                                            ? 'text-white after:w-3/5 after:bg-[#a78bfa]'
+                                            : 'text-foreground after:w-3/5 after:bg-[#a78bfa]'
                                         : isDarkApp
-                                            ? 'text-white/60 hover:text-white hover:bg-white/5'
-                                            : 'text-muted hover:text-foreground hover:bg-foreground/5'
+                                            ? 'text-white/60 hover:text-white after:w-0 after:bg-current hover:after:w-3/5'
+                                            : 'text-muted hover:text-foreground after:w-0 after:bg-current hover:after:w-3/5'
                                     }`}
                             >
                                 {link.label}
@@ -104,13 +104,13 @@ export function Header() {
                     <div className="relative" ref={demosRef}>
                         <button
                             onClick={() => setDemosOpen(!demosOpen)}
-                            className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium lowercase tracking-wide transition-all ${isDemoPage
+                            className={`relative flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium lowercase tracking-wide transition-all after:absolute after:bottom-0.5 after:left-1/2 after:h-0.5 after:-translate-x-1/2 after:rounded-full after:transition-all after:duration-200 ${isDemoPage
                                     ? isDarkApp
-                                        ? 'bg-white/10 text-white'
-                                        : 'bg-foreground text-background'
+                                        ? 'text-white after:w-3/5 after:bg-[#a78bfa]'
+                                        : 'text-foreground after:w-3/5 after:bg-[#a78bfa]'
                                     : isDarkApp
-                                        ? 'text-white/60 hover:text-white hover:bg-white/5'
-                                        : 'text-muted hover:text-foreground hover:bg-foreground/5'
+                                        ? 'text-white/60 hover:text-white after:w-0 after:bg-current hover:after:w-3/5'
+                                        : 'text-muted hover:text-foreground after:w-0 after:bg-current hover:after:w-3/5'
                                 }`}
                         >
                             {t.nav.demos}

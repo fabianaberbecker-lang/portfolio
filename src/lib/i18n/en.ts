@@ -18,7 +18,6 @@ export const content: SiteContent = {
 },
   hero: {
   name: 'Fabian Becker',
-  role: 'Product-Minded Developer',
   email: 'becker.fabianpk@gmail.com',
   tagline: 'from user insight to shipped features',
   description:

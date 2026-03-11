@@ -42,7 +42,7 @@ export function Button({
 }: ButtonProps) {
     return (
         <button
-            className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold lowercase tracking-wide transition-all active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
+            className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold lowercase tracking-wide transition-all duration-[180ms] ease-out hover:scale-[1.03] active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
             {...props}
         >
             {children}

@@ -17,7 +17,6 @@ export interface SiteContent {
   };
   hero: {
     name: string;
-    role: string;
     email: string;
     tagline: string;
     description: string;
