@@ -15,6 +15,7 @@ nav: {
   streamingFinder: 'Streaming Finder',
   barMatch: 'BarMatch',
   flowBoard: 'FlowBoard',
+  howIThink: 'How I Think',
   contact: 'Kontakt',
 },
 
@@ -402,6 +403,32 @@ about: {
       ],
       cta: 'Ausprobieren \u2192',
       tryDemo: 'App \u00f6ffnen',
+    },
+  },
+  howIThink: {
+    showcase: {
+      title: 'How I Think',
+      description:
+        'Ein strukturiertes Denktool, das Probleme in navigierbare Denkräume verwandelt — mit Hypothesen, Annahmen, Risiken und Priorisierungsmatrix.',
+      valueProps: [
+        {
+          iconKey: 'lightning',
+          title: 'Strukturierte Generierung',
+          description: 'Problem eingeben, sofort Hypothesen, Annahmen und Risiken erhalten.',
+        },
+        {
+          iconKey: 'chart',
+          title: 'Priorisierungsmatrix',
+          description: 'Ideen auf einer Impact/Effort-Matrix per Drag & Drop platzieren.',
+        },
+        {
+          iconKey: 'board',
+          title: 'Drei Ansichten',
+          description: 'Zwischen Mindmap, Matrix und Liste wechseln für verschiedene Perspektiven.',
+        },
+      ],
+      cta: 'Ausprobieren \u2192',
+      tryDemo: 'App öffnen',
     },
   },
   cta: {

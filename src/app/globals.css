@@ -98,6 +98,30 @@
   --glass-blur: 24px;
 }
 
+/* ——— Thinking Tool Theme (Warm Slate) ——— */
+.theme-thinking {
+  --background: #0f1117;
+  --foreground: #e4e2de;
+  --surface: #1a1c24;
+  --surface-hover: #23252f;
+  --border-color: #2a2d38;
+  --muted: #8b8d97;
+  --accent: #6b8afd;
+  --accent-hover: #5470e0;
+  --accent-fg: #ffffff;
+  --warm: #14161e;
+  --warm-dark: #0f1117;
+  --thinking-blue: #6b8afd;
+  --thinking-amber: #e5a35c;
+  --thinking-rose: #e07070;
+  --thinking-blue-bg: rgba(107, 138, 253, 0.08);
+  --thinking-amber-bg: rgba(229, 163, 92, 0.08);
+  --thinking-rose-bg: rgba(224, 112, 112, 0.08);
+  --thinking-blue-border: rgba(107, 138, 253, 0.20);
+  --thinking-amber-border: rgba(229, 163, 92, 0.20);
+  --thinking-rose-border: rgba(224, 112, 112, 0.20);
+}
+
 .dark {
   --background: #0e0e11;
   --foreground: #ede7dd;

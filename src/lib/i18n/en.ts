@@ -14,6 +14,7 @@ export const content: SiteContent = {
   streamingFinder: 'Streaming Finder',
   barMatch: 'BarMatch',
   flowBoard: 'FlowBoard',
+  howIThink: 'How I Think',
   contact: 'Contact',
 },
   hero: {
@@ -378,6 +379,32 @@ about: {
           iconKey: 'offline',
           title: 'Offline-first',
           description: 'All data stored locally via IndexedDB. No account needed.',
+        },
+      ],
+      cta: 'try it out \u2192',
+      tryDemo: 'open app',
+    },
+  },
+  howIThink: {
+    showcase: {
+      title: 'how i think',
+      description:
+        'A structured reasoning tool that transforms problems into navigable thinking spaces — with hypotheses, assumptions, risks, and priority mapping.',
+      valueProps: [
+        {
+          iconKey: 'lightning',
+          title: 'Structured generation',
+          description: 'Enter a problem, get hypotheses, assumptions, and risks instantly.',
+        },
+        {
+          iconKey: 'chart',
+          title: 'Priority matrix',
+          description: 'Plot ideas on an impact/effort grid with draggable placement.',
+        },
+        {
+          iconKey: 'board',
+          title: 'Three views',
+          description: 'Switch between mind map, matrix, and list for different perspectives.',
         },
       ],
       cta: 'try it out \u2192',

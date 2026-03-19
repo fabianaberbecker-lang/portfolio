@@ -13,6 +13,7 @@ export interface SiteContent {
     streamingFinder: string;
     barMatch: string;
     flowBoard: string;
+    howIThink: string;
     contact: string;
   };
   hero: {
@@ -181,6 +182,15 @@ export interface SiteContent {
     };
   };
   flowBoard: {
+    showcase: {
+      title: string;
+      description: string;
+      valueProps: Array<{ iconKey: string; title: string; description: string }>;
+      cta: string;
+      tryDemo: string;
+    };
+  };
+  howIThink: {
     showcase: {
       title: string;
       description: string;
