@@ -11,7 +11,67 @@ interface GeneratedGraph {
   edges: ThinkingEdge[];
 }
 
-// Rule-based templates keyed by detected category
+// ————————————————————————————————————————————————
+// AI-powered generation via Claude API
+// ————————————————————————————————————————————————
+
+export async function generateThinkingGraphAI(problem: string): Promise<GeneratedGraph> {
+  const res = await fetch('/api/thinking/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ problem }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status}`);
+  }
+
+  const data = await res.json();
+
+  // Transform API response into ThinkingNode/Edge format
+  const nodes: ThinkingNode[] = data.nodes.map(
+    (n: { type: 'hypothesis' | 'assumption' | 'risk'; label: string; notes?: string; impact: number; effort: number }) => ({
+      id: uid(),
+      type: n.type,
+      label: n.label,
+      notes: n.notes || '',
+      impact: n.impact,
+      effort: n.effort,
+      position: { x: 0, y: 0 },
+    })
+  );
+
+  // Apply layout
+  const laidOut = layoutNodes(nodes);
+
+  // Build edges from index-based references
+  const edges: ThinkingEdge[] = [];
+  if (Array.isArray(data.edges)) {
+    for (const e of data.edges) {
+      const src = laidOut[e.sourceIndex];
+      const tgt = laidOut[e.targetIndex];
+      if (src && tgt) {
+        edges.push({
+          id: `e-${src.id}-${tgt.id}`,
+          source: src.id,
+          target: tgt.id,
+        });
+      }
+    }
+  }
+
+  // Fallback: if API returned no edges, generate some
+  if (edges.length === 0) {
+    return { nodes: laidOut, edges: generateEdges(laidOut) };
+  }
+
+  return { nodes: laidOut, edges };
+}
+
+// ————————————————————————————————————————————————
+// Rule-based fallback generation
+// ————————————————————————————————————————————————
+
 const templates: Record<string, Omit<ThinkingNode, 'id' | 'position'>[]> = {
   engagement: [
     { type: 'hypothesis', label: 'Onboarding flow is too complex', impact: 80, effort: 50 },
@@ -64,7 +124,7 @@ function detectCategory(problem: string): string {
   return 'default';
 }
 
-// Arrange nodes in a nice radial-ish layout
+// Arrange nodes in a radial layout
 function layoutNodes(nodes: ThinkingNode[]): ThinkingNode[] {
   const cx = 400;
   const cy = 300;
@@ -89,19 +149,15 @@ function generateEdges(nodes: ThinkingNode[]): ThinkingEdge[] {
   const assumptions = nodes.filter((n) => n.type === 'assumption');
   const risks = nodes.filter((n) => n.type === 'risk');
 
-  // Connect first assumption to first hypothesis
   if (assumptions.length > 0 && hypotheses.length > 0) {
     edges.push({ id: `e-${assumptions[0].id}-${hypotheses[0].id}`, source: assumptions[0].id, target: hypotheses[0].id });
   }
-  // Connect first risk to second hypothesis
   if (risks.length > 0 && hypotheses.length > 1) {
     edges.push({ id: `e-${risks[0].id}-${hypotheses[1].id}`, source: risks[0].id, target: hypotheses[1].id });
   }
-  // Connect second assumption to first risk if exists
   if (assumptions.length > 1 && risks.length > 0) {
     edges.push({ id: `e-${assumptions[1].id}-${risks[0].id}`, source: assumptions[1].id, target: risks[0].id });
   }
-  // Connect last hypothesis to last risk
   if (hypotheses.length > 0 && risks.length > 0) {
     const h = hypotheses[hypotheses.length - 1];
     const r = risks[risks.length - 1];

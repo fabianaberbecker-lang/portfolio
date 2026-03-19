@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { ThinkingNode, ThinkingEdge, ViewMode, ThinkingSession } from './types';
-import { generateThinkingGraph } from './generator';
+import { generateThinkingGraph, generateThinkingGraphAI } from './generator';
 
 const STORAGE_KEY = 'thinking-session';
 
@@ -14,10 +14,12 @@ interface ThinkingState {
   // UI
   view: ViewMode;
   selectedNodeId: string | null;
+  isGenerating: boolean;
+  generationSource: 'ai' | 'fallback' | null;
 
   // Actions
   setProblem: (problem: string) => void;
-  generate: (problem: string) => void;
+  generate: (problem: string) => Promise<void>;
   setView: (view: ViewMode) => void;
   selectNode: (id: string | null) => void;
 
@@ -45,13 +47,43 @@ export const useThinkingStore = create<ThinkingState>((set, get) => ({
   sessionId: null,
   view: 'map',
   selectedNodeId: null,
+  isGenerating: false,
+  generationSource: null,
 
   setProblem: (problem) => set({ problem }),
 
-  generate: (problem) => {
-    const { nodes, edges } = generateThinkingGraph(problem);
+  generate: async (problem) => {
+    set({ isGenerating: true, generationSource: null });
+
+    let nodes: ThinkingNode[];
+    let edges: ThinkingEdge[];
+    let source: 'ai' | 'fallback';
+
+    try {
+      // Try AI generation first
+      const result = await generateThinkingGraphAI(problem);
+      nodes = result.nodes;
+      edges = result.edges;
+      source = 'ai';
+    } catch (err) {
+      // Fall back to rule-based
+      console.warn('AI generation failed, using fallback:', err);
+      const result = generateThinkingGraph(problem);
+      nodes = result.nodes;
+      edges = result.edges;
+      source = 'fallback';
+    }
+
     const sessionId = `s-${Date.now()}`;
-    set({ problem, nodes, edges, sessionId, selectedNodeId: null });
+    set({
+      problem,
+      nodes,
+      edges,
+      sessionId,
+      selectedNodeId: null,
+      isGenerating: false,
+      generationSource: source,
+    });
     // Auto-save
     setTimeout(() => get().save(), 0);
   },
@@ -144,6 +176,8 @@ export const useThinkingStore = create<ThinkingState>((set, get) => ({
       sessionId: null,
       selectedNodeId: null,
       view: 'map',
+      isGenerating: false,
+      generationSource: null,
     });
     try {
       localStorage.removeItem(STORAGE_KEY);
