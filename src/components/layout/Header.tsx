@@ -19,7 +19,9 @@ export function Header() {
     const isBarMatch = pathname.startsWith('/apps/barmatch');
     const isFlowBoard = pathname.startsWith('/apps/flowboard');
     const isThinking = pathname.startsWith('/apps/thinking');
-    const isDarkApp = isStreamingFinder || isBarMatch || isFlowBoard || isThinking;
+    const isDecisionLab = pathname.startsWith('/apps/decision-lab');
+    const isHowIThinkNarrative = pathname.startsWith('/how-i-think');
+    const isDarkApp = isStreamingFinder || isBarMatch || isFlowBoard || isThinking || isDecisionLab || isHowIThinkNarrative;
     const isDemoPage = isDarkApp;
 
     // Detect if running inside an iframe (phone mockup) or as installed PWA
@@ -56,6 +58,7 @@ export function Header() {
         { href: '/apps/barmatch', label: t.nav.barMatch },
         { href: '/apps/flowboard', label: t.nav.flowBoard },
         { href: '/apps/thinking', label: t.nav.howIThink },
+        { href: '/apps/decision-lab', label: t.nav.decisionLab },
     ];
 
     return (
@@ -73,7 +76,7 @@ export function Header() {
                         }`}
                 >
                     fabian becker
-                    <span className={isDarkApp ? (isThinking ? 'text-[#6b8afd]' : isFlowBoard ? 'text-indigo-400' : isBarMatch ? 'text-amber-500' : 'text-[#e63946]') : 'text-pop-purple'}>
+                    <span className={isDarkApp ? (isDecisionLab ? 'text-[#8b7cf6]' : (isThinking || isHowIThinkNarrative) ? 'text-[#6b8afd]' : isFlowBoard ? 'text-indigo-400' : isBarMatch ? 'text-amber-500' : 'text-[#e63946]') : 'text-pop-purple'}>
                         _
                     </span>
                 </Link>
